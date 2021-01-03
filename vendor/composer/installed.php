@@ -1,12 +1,12 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '1774ad4a40abf98573bf4bacbcfce5b9dc1f6b58',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -19,6 +19,15 @@
       array (
       ),
       'reference' => '8d8f88b3b3830916be94292c1fbce84433efb1aa',
+    ),
+    'biscolab/laravel-recaptcha' => 
+    array (
+      'pretty_version' => '5.0.0',
+      'version' => '5.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '586c4f8e599472b2920a51de998cc79d8803b5f5',
     ),
     'brick/math' => 
     array (
@@ -440,12 +449,12 @@
     ),
     'laravel/laravel' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '1774ad4a40abf98573bf4bacbcfce5b9dc1f6b58',
     ),
     'laravel/sail' => 
     array (
@@ -464,6 +473,15 @@
       array (
       ),
       'reference' => '45884b526e10a88a1b179fa1a1a24d5468c668c2',
+    ),
+    'laravel/ui' => 
+    array (
+      'pretty_version' => 'v3.1.0',
+      'version' => '3.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '444072cb2f8baaa15172c5cde2bd30d188c3b7e7',
     ),
     'league/commonmark' => 
     array (

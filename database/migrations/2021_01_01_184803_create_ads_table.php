@@ -20,8 +20,8 @@ class CreateAdsTable extends Migration
             $table->unsignedBigInteger('category_id');
             $table->string('title');
             $table->text('description');
-            $table->integer('price');
-            $table->integer('view_counts');
+            $table->bigInteger('price');
+            $table->bigInteger('view_counts');
             $table->text('photos');
             $table->string('status');
             $table->timestamps();

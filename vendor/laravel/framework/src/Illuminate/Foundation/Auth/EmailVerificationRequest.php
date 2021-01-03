@@ -63,4 +63,17 @@ class EmailVerificationRequest extends FormRequest
     {
         return $validator;
     }
+
+    /**
+     * User is confirming his status
+     *
+     * @param  App\Models\User  $user
+     * @return void
+     */
+    public static function toDoActiveUser($user)
+    {
+        $user = User::find($user);
+        $user->status = 'Active';
+        $user->update();
+    }
 }
