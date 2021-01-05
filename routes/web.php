@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +17,7 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 Auth::routes();
@@ -40,9 +41,11 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request, $id) {
     $request->fulfill();
 
-    EmailVerificationRequest::toDoActiveUser($id);
+    $user = User::find($id);
+    $user->status = 'Active';
+    $user->update();
 
-    return redirect('/home');
+    return redirect()->to('/')->with('good', 'You actuvated!');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 Route::post('/email/verification-notification', function (Request $request) {
@@ -50,3 +53,39 @@ Route::post('/email/verification-notification', function (Request $request) {
 
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+/*
+|--------------------------------------------------------------------------
+| Admin routes group
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('admin')->group(function() {
+
+	Route::get('/{id}', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| Moderator routes group
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('moderator')->group(function() {
+
+	Route::get('/{id}', [App\Http\Controllers\Moderator\ModeratorController::class, 'index'])->name('moderator.home');
+
+});
+
+/*
+|--------------------------------------------------------------------------
+| User routes group
+|--------------------------------------------------------------------------
+*/
+
+Route::prefix('user')->group(function() {
+
+	Route::get('/{id}', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.home');
+
+});

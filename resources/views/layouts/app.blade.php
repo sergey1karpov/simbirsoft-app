@@ -60,6 +60,27 @@
                                 </li>
                             @endif
                         @else
+                            @if(Auth::user()->role == 'User')
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-item" href="{{ route('user.home', Auth::user()->id) }}">
+                                        {{ __('Home') }}
+                                    </a>
+                                </li> 
+                            @endif 
+                            @if(Auth::user()->role == 'Moderator')
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-item" href="{{ route('moderator.home', Auth::user()->id) }}">
+                                        {{ __('Home') }}
+                                    </a>
+                                </li> 
+                            @endif  
+                            @if(Auth::user()->role == 'Admin')
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-item" href="{{ route('admin.home', Auth::user()->id) }}">
+                                        {{ __('Home') }}
+                                    </a>
+                                </li> 
+                            @endif        
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
@@ -82,9 +103,20 @@
                 </div>
             </div>
         </nav>
-        @if(session('message'))
-            <div class="alert alert-danger">
-                {{session('message')}}
+        @if(session('error'))
+            <div class="alert alert-danger ml-5 mr-5 mt-5">
+                {{session('error')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        @if(session('good'))
+            <div class="alert alert-success ml-5 mr-5 mt-5">
+                {{session('good')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         @endif
         <main class="py-4">

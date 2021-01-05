@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -29,6 +30,26 @@ class LoginController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
+     * Get the path the user should be redirected to when they are not authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return string|null
+     */
+    protected function redirectTo() {
+        switch(auth()->user()->role) {
+            case 'User':
+                return 'user/'.auth()->user()->id;
+                break;
+            case 'Moderator':
+                return 'moderator/'.auth()->user()->id;
+                break;
+            case 'Admin':
+                return 'admin/'.auth()->user()->id;
+                break;
+        }
+    }
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -37,4 +58,5 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
 }
