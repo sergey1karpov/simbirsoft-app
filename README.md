@@ -1,8 +1,10 @@
 1. docker-compose up -d
 
-2. docker-compose exec postgres bash
+2. Регистрируемся на сайте
 
-3. Update user role
+3. Проникаем в базу docker-compose exec postgres bash 
+
+4. По умолчанию, при регистрации пользователю даётся сатус User, вставляем этот запрос и меняем роль на Admin.
 
 set -e
 
