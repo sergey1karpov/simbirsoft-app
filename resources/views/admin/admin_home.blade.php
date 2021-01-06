@@ -14,11 +14,7 @@
                         </div>
                     @endif
 
-                    admin page
-
-                    make new user
-
-                    moderation ads
+                    admin page | make new user | moderation ads
                 </div>
             </div>
         </div>

@@ -13,9 +13,9 @@ class AdminController extends Controller
      */
 	public function index($id)
 	{
-		$admin = User::find($id);
+		$admin = User::findOrfail($id);
 		
-		if($admin->role == 'Admin') {
+		if($admin->role == 'Admin' && $user->id == $id) {
 			return view('admin.admin_home', compact('admin'));
 		} else {
 			return abort(404);

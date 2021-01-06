@@ -13,13 +13,15 @@ class UserController extends Controller
      */
 	public function index($id)
 	{
-		$user = User::find($id);
+		$user = User::findOrFail($id);
 		
-		if($user->role == 'User') {
+		if($user->role == 'User' && $user->id == $id) {
 			return view('user.user_home', compact('user'));
 		} else {
 			return abort('404');
 		}	
 	}
+
+	
 
 }

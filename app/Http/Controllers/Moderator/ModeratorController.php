@@ -13,9 +13,9 @@ class ModeratorController extends Controller
      */
 	public function index($id)
 	{
-		$moderator = User::find($id);
+		$moderator = User::findOrFail($id);
 		
-		if($moderator->role == 'Moderator') {
+		if($moderator->role == 'Moderator' && $user->id == $id) {
 			return view('moderator.moderator_home', compact('moderator'));
 		} else {
 			return abort(404);

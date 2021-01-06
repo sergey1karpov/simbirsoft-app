@@ -14,9 +14,7 @@
                         </div>
                     @endif
 
-                    moder page
-
-                    moderation ads
+                    moder page | moderation ads
                 </div>
             </div>
         </div>
