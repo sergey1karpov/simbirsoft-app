@@ -12,11 +12,11 @@
 
 6. По умолчанию, при регистрации пользователю даётся сатус User, вставляем этот запрос и роль меняется на Admin.
 
-set -e
+`set -e
 
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     UPDATE users SET role='Admin' WHERE id=1;
-EOSQL
+EOSQL`
 
 
 
