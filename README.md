@@ -3,9 +3,10 @@
 2. docker-compose exec app bash
 
 3. php artisan migrate и возможно config:cache
+
 3.5 exit
 
-4. Регистрируемся на сайте
+4. Заходим на сайт localhost и регистрируемся 
 
 5. Проникаем в базу docker-compose exec postgres bash 
 
@@ -18,5 +19,5 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 
 EOSQL
 
-7. localhost
+
 
