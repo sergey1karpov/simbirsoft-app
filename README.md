@@ -1,6 +1,8 @@
-1. docker-compose exec postgres bash
+1. docker-compose up -d
 
-2. Update user role
+2. docker-compose exec postgres bash
+
+3. Update user role
 
 set -e
 
