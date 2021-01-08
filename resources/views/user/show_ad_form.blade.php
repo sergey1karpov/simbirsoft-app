@@ -22,16 +22,18 @@
                     @csrf
                     <div class="form-group">
                         <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title">
+                        <input maxlength="50" type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title">
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select class="form-control" id="category" name="category">
-                            <option>Cars</option>
-                            <option>Furniture</option>
-                            <option>Games</option>
-                            <option>Animals</option>
-                            <option>Peoples</option>
+                            <option>PS5</option>
+                            <option>PS4</option>
+                            <option>PS3</option>
+                            <option>XBOX X</option>
+                            <option>XBOX S</option>
+                            <option>XBOX One</option>
+                            <option>XBOX 360</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -44,19 +46,19 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        <textarea maxlength="500" class="form-control" id="description" name="description" rows="3"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="photo">Add main photo</label>
-                        <input type="file" class="form-control-file" id="photo" name="photo">
+                        <input type="file" class="form-control-file" id="photo" name="photo" accept="image/jpeg,image/png">
                     </div>
                     <div class="form-group">
                         <label for="photos">Add up to 10 additional photos</label>
-                        <input type="file" class="form-control-file" id="photos[]" name="photos[]" multiple>
+                        <input type="file" class="form-control-file" id="photos[]" name="photos[]" accept="image/jpeg,image/png" multiple>
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="text" class="form-control" id="price" aria-describedby="emailHelp" name="price">
+                        <input maxlength="20" type="text" class="form-control" id="price" aria-describedby="emailHelp" name="price">
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>

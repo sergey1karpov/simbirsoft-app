@@ -9,7 +9,9 @@ use App\Models\Ad;
 use App\Models\City;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\File;
+use App\Requests\NewAdRequest;
+
+
 class UserController extends Controller
 {
     /**
@@ -44,7 +46,7 @@ class UserController extends Controller
      * @param  App\Models\User  $id
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
-	public function createAd(Request $request, $id) 
+	public function createAd(NewAdRequest $request, $id) 
 	{
 		$user = User::findOrFail($id);
 
