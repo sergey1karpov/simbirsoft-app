@@ -26,9 +26,9 @@ class NewAdRequest extends FormRequest
         return [
             'title' => 'required|min:10|max:255|',
             'description' => 'required|min:10|max:500|',
-            'photo' => 'dimensions:min_width=300,min_height=300|file|size:512|mimes:jpg,jpeg,png',
-            'photos' => 'dimensions:min_width=300,min_height=300|file|size:512|mimes:jpg,jpeg,png',
-            'price' => 'required|integer|max:20',
+            'photo' => 'dimensions:min_width=300,min_height=300|file|max:512|mimes:jpg,jpeg,png',
+            'photos.*' => 'dimensions:min_width=300,min_height=300|file|max:512|mimes:jpg,jpeg,png',
+            'price' => 'required|integer',
         ];
     }
 }

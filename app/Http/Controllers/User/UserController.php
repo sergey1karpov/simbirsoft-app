@@ -9,7 +9,7 @@ use App\Models\Ad;
 use App\Models\City;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-use App\Requests\NewAdRequest;
+use App\Http\Requests\NewAdRequest;
 
 
 class UserController extends Controller
