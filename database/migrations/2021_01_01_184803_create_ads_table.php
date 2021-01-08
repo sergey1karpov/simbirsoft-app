@@ -22,6 +22,7 @@ class CreateAdsTable extends Migration
             $table->text('description');
             $table->bigInteger('price');
             $table->bigInteger('view_counts');
+            $table->text('photo');
             $table->text('photos');
             $table->string('status');
             $table->timestamps();

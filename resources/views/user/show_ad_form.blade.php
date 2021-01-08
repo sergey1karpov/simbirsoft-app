@@ -47,8 +47,12 @@
                         <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="photos">Images</label>
-                        <input type="file" class="form-control-file" id="photos[]" name="photos" multiple>
+                        <label for="photo">Add main photo</label>
+                        <input type="file" class="form-control-file" id="photo" name="photo">
+                    </div>
+                    <div class="form-group">
+                        <label for="photos">Add up to 10 additional photos</label>
+                        <input type="file" class="form-control-file" id="photos[]" name="photos[]" multiple>
                     </div>
                     <div class="form-group">
                         <label for="price">Price</label>
