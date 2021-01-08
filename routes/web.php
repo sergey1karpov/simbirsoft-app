@@ -87,5 +87,6 @@ Route::prefix('moderator')->group(function() {
 Route::prefix('user')->group(function() {
 
 	Route::get('/{id}', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.home');
-
+    Route::get('/{id}/create-ad', [App\Http\Controllers\User\UserController::class, 'showForm'])->name('showForm');
+    Route::post('/{id}/create-ad', [App\Http\Controllers\User\UserController::class, 'createAd'])->name('createAd');
 });
