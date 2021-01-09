@@ -62,30 +62,89 @@ class UserController extends Controller
 
 			//Add main photo	
 			if($request->file('photo')) {
-				$path = Storage::putFile('public/'.auth()->user()->id.'/ad', $request->file('photo'));
-				$url = Storage::url($path);
-				$ad->photo = $url;
+				$ad->photo = Ad::addMainPhoto($request->file('photo'));
 			}
 
 			//Add addotional photos
-			$photos = [];
-			$urls = [];
-
 			if($request->file('photos')) {
-				foreach($request->file('photos') as $key => $photo) {
-					$photos[] = Storage::putFile('public/'.auth()->user()->id.'/ad', $photo);
-				}
-				foreach($photos as $photo) {
-					$urls[] = Storage::url($photo);
-				}
-				$ad->photos = serialize($urls);
+				$ad->photos = Ad::addAdditionalPhoto($request->file('photos'));
 			}
 
 			$ad->price = $request->price;
 			$ad->user_id = auth()->user()->id;
 			$ad->save();
 
-			return redirect()->back()->with('status', 'Your ad is sending to moderator');
+			return redirect()->route('user.home', ['id' => auth()->user()->id])->with('status', 'Your ad is draft');
+		}
+	}
+
+	/**
+     * Show user draft ad
+     *
+	 * @param  App\Models\User  $id
+     * @param  App\Models\Ad  $ad
+     */
+	public function showAd($id, $ad) 
+	{
+		$user = User::findOrFail($id);
+		if($user) {
+			$draftAd = Ad::findOrFail($ad);
+			return view('user.draftAd', compact('user', 'draftAd'));
+		}
+	}
+
+	public function editDraftAd($id, $ad) 
+	{
+		$user = User::findOrFail($id);
+		if($user) {
+			$draftAd = Ad::findOrFail($ad);
+			if($ad) {
+				$city = $draftAd->city()->where('id', $draftAd->city_id)->get();
+				$cities = City::all();
+				return view('user.edit_draft_ad_form', compact('user', 'draftAd', 'cities', 'city'));
+			}
+		}
+	}
+
+	public function updateDraftAd(NewAdRequest $request, $id, $ad) 
+	{
+		$user = User::findOrFail($id);
+		if($user) {
+			$ad = Ad::findOrFail($ad);
+			if($ad) {
+				$ad->title = $request->title;
+				$ad->category_id = 1;
+				$ad->city_id = $request->city;
+				$ad->description = $request->description;
+				$ad->price = $request->price;
+				$ad->user_id = auth()->user()->id;
+
+				//Update main photo	
+				if($request->file('photo')) {
+					$ad->photo = Ad::addMainPhoto($request->file('photo'));
+				}
+
+				//Update addotional photos
+				if($request->file('photos')) {
+					$ad->photos = Ad::addAdditionalPhoto($request->file('photos'));
+				}
+
+				$ad->update();
+
+				return redirect()->back()->with('status', 'Your ad is update');
+			}
+		}
+	}
+
+	public function deleteDraftAd($id, $ad) 
+	{
+		$user = User::findOrFail($id);
+		if($user) {
+			$ad = Ad::findOrFail($ad);
+			if($ad) {
+				$ad->delete();
+				return redirect()->route('user.home', ['id' => auth()->user()->id])->with('status', 'Draft ad is deleted');
+			}
 		}
 	}
 

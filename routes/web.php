@@ -89,4 +89,9 @@ Route::prefix('user')->group(function() {
 	Route::get('/{id}', [App\Http\Controllers\User\UserController::class, 'index'])->name('user.home');
     Route::get('/{id}/create-ad', [App\Http\Controllers\User\UserController::class, 'showForm'])->name('showForm');
     Route::post('/{id}/create-ad', [App\Http\Controllers\User\UserController::class, 'createAd'])->name('createAd');
+    Route::get('{id}/ad/{ad}', [App\Http\Controllers\User\UserController::class, 'showAd'])->name('showAd');
+
+    Route::get('{id}/ad/{ad}/edit', [App\Http\Controllers\User\UserController::class, 'editDraftAd'])->name('editDraftAd');
+    Route::patch('{id}/ad/{ad}/edit', [App\Http\Controllers\User\UserController::class, 'updateDraftAd'])->name('updateDraftAd');
+    Route::delete('{id}/ad/{ad}/delete', [App\Http\Controllers\User\UserController::class, 'deleteDraftAd'])->name('deleteDraftAd');
 });

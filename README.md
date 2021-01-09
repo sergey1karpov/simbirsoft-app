@@ -20,4 +20,23 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-E
 EOSQL
 ```
 
+Add ad
 
+
+7. Go to PgAdmin http://localhost:5050 and insert into cities and regions
+Pg login pgadmin4@pgadmin.org
+Pg pass secret
+
+```
+INSERT INTO cities (id, name, region_id, slug) VALUES
+(1,	'Авсюнино',	50,	'avsyunino'),
+(2,	'Андреевка',	50,	'andreevka'),
+(3,	'Апрелевка',	50,	'aprelevka'),
+```
+```
+INSERT INTO regions (id, name) VALUES
+(1,	'Республика Адыгея (Адыгея)'),
+(2,	'Республика Башкортостан'),
+(3,	'Республика Бурятия'),
+```
+8. You can now add your ad

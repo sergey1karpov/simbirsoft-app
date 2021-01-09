@@ -8,6 +8,12 @@
     </div>
 @endif
 
+@if (session('status'))
+    <div class="alert alert-success" role="alert">
+        {{ session('status') }}
+    </div>
+@endif 
+
 <div class="container">
     <div class="mb-5">
         <a href="{{route('showForm', Auth::user()->id)}}">
@@ -56,9 +62,12 @@
                         <div style="height:200px; background-size: cover; background-image: url({{$draftAd->photo}})"></div>
                         <div class="card-body">
                             <h5 class="card-title">{{$draftAd->title}}</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
-                            <a href="#" class="btn-sm btn btn-primary">edit</a>
-                            <a href="#" class="btn-sm btn btn-primary">delete</a>
+                            <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">show</a>
+                            <a href="{{route('editDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">edit</a>
+                            <form action="{{route('deleteDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-danger">delete</button>
+                            </form>
                         </div>
                     </div>
                 </div>

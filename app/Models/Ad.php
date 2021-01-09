@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Ad extends Model
 {
@@ -30,5 +31,26 @@ class Ad extends Model
 
     public function moderation() {
     	return $this->belongsTo(Moderation::class);
+    }
+
+    public static function addMainPhoto($photo) 
+    {
+        $path = Storage::putFile('public/'.auth()->user()->id.'/ad', $photo);
+        $url = Storage::url($path);
+        return $url;
+    }
+
+    public static function addAdditionalPhoto($myPhotos) 
+    {
+        $photos = [];
+        $urls = [];
+
+        foreach($myPhotos as $key => $photo) {
+            $photos[] = Storage::putFile('public/'.auth()->user()->id.'/ad', $photo);
+        }
+        foreach($photos as $photo) {
+            $urls[] = Storage::url($photo);
+        }
+        return serialize($urls);
     }
 }
