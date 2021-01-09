@@ -50,33 +50,19 @@
 
             <h4 class="mt-2">Drafts(This ads can be edited)</h4>
             <div class="row">
+                @foreach($draftAds as $draftAd)
                 <div class="col-4 mt-2">
                     <div class="card">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
+                        <div style="height:200px; background-size: cover; background-image: url({{$draftAd->photo}})"></div>
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
+                            <h5 class="card-title">{{$draftAd->title}}</h5>
                             <a href="#" class="btn-sm btn btn-primary">show</a>
+                            <a href="#" class="btn-sm btn btn-primary">edit</a>
+                            <a href="#" class="btn-sm btn btn-primary">delete</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-4 mt-2">
-                    <div class="card">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mt-2">
-                    <div class="card">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <h4 class="mt-2">Ads on moderation(If ad have red border, ad == false, if green border, ad == wait, else ad moves to active)</h4>
