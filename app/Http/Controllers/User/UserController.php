@@ -21,7 +21,10 @@ class UserController extends Controller
 	{
 		$user = User::findOrFail($id);
 		$draftAds = $user->ads()->where('status', 'draft')->get();
-		$moderationAds = $user->ads()->where('status', 'On Moderation')->get();
+		$moderationAds = $user->ads()
+			->where('status', 'on moderation')
+			->orWhere('status', 'false')
+			->get();
 
 		if($user->role == 'User' && $user->id == $id) {
 			return view('user.user_home', compact('user', 'draftAds', 'moderationAds'));
@@ -90,7 +93,8 @@ class UserController extends Controller
 		$user = User::findOrFail($id);
 		if($user) {
 			$draftAd = Ad::findOrFail($ad);
-			return view('user.draftAd', compact('user', 'draftAd'));
+			$whyFalse = $draftAd->moderation()->where('ad_id', $ad)->latest()->first();
+			return view('user.draftAd', compact('user', 'draftAd', 'whyFalse'));
 		}
 	}
 
@@ -114,7 +118,7 @@ class UserController extends Controller
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
 
-				if($ad->status == 'On Moderation') {
+				if($ad->status == 'on moderation') {
 					return redirect()->back()->with('status', 'Sorry, the ad on moderation');
 				}
 
@@ -149,7 +153,7 @@ class UserController extends Controller
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
 
-				if($ad->status == 'On Moderation') {
+				if($ad->status == 'on moderation') {
 					return redirect()->back()->with('status', 'Sorry, the ad on moderation');
 				}
 
@@ -165,7 +169,7 @@ class UserController extends Controller
 		if($user) {
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
-				$ad->status = 'On Moderation';
+				$ad->status = 'on moderation';
 				$ad->update();
 
 				return redirect()->back()->with('status', 'Your ad send on moder');

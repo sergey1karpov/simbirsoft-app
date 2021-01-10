@@ -23,5 +23,16 @@
             </div>
 		
 	</div>
+
+    <h4>Why this ad is shit?</h4>
+    <form action="{{route('why', ['id' => Auth::user()->id, 'ad' => $ad->id])}}" method="POST">
+        @csrf
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Example textarea</label>
+            <textarea name="why" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <button class="btn btn-primary btn-sm">Send</button>
+    </form>
 </div>	
+
 @endsection

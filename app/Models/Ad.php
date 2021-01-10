@@ -30,7 +30,7 @@ class Ad extends Model
     }
 
     public function moderation() {
-    	return $this->belongsTo(Moderation::class);
+    	return $this->hasMany(Moderation::class);
     }
 
     public static function addMainPhoto($photo) 

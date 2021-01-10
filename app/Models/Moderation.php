@@ -16,6 +16,6 @@ class Moderation extends Model
     }
 
     public function ads() {
-    	return $this->hasMany(Ad::class);
+    	return $this->bolongsTo(Ad::class);
     }
 }

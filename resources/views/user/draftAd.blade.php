@@ -9,6 +9,28 @@
 @endif 
 
 <div class="container">
+
+    @if($whyFalse == true)
+        <h2>Check your ad and send on moderation again</h2>
+        <form action="{{route('sendToModer', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
+            @csrf @method('PATCH')
+            <button class="btn btn-primary">Send to moderation</button>
+        </form>
+
+        <h2>You ad is rejected for reason:</h2>
+        <div class="alelrt alert-danger">
+            <h6>{{$whyFalse->why}}</h6>
+
+
+        </div>
+    @endif
+    @if($draftAd->status == 'on moderation')
+        <h2>Please wait:</h2>
+        <div class="alelrt alert-success">
+            <h6>Wait, you ad is on moderation</h6>
+        </div>
+    @endif
+
 	<div class="row">
 			<img src="{{$draftAd->photo}}" class="img-fluid">
 			<div class="card-body">
@@ -20,12 +42,14 @@
        			@endforeach
                 <a href="{{route('editDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">edit</a>
                 <form action="{{route('deleteDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-danger">delete</button>
-                            </form>
+                    @csrf @method('DELETE')
+                    <button class="btn btn-danger">delete</button>
+                </form>
             </div>
 		
 	</div>
 </div>	
+
+
 @endsection
 
