@@ -68,6 +68,10 @@
                                 @csrf @method('DELETE')
                                 <button class="btn btn-danger">delete</button>
                             </form>
+                            <form action="{{route('sendToModer', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
+                                @csrf @method('PATCH')
+                                <button class="btn btn-primary">Send to moderation</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -76,33 +80,17 @@
 
             <h4 class="mt-2">Ads on moderation(If ad have red border, ad == false, if green border, ad == wait, else ad moves to active)</h4>
             <div class="row">
+                @foreach($moderationAds as $moderationAd)
                 <div class="col-4 mt-2">
-                    <div class="card" style="border: 4px solid red">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
+                    <div class="card" @if($moderationAd->status == 'On Moderation')style="border: 4px solid yellow" @endif>
+                        <div style="height:200px; background-size: cover; background-image: url({{$moderationAd->photo}})"></div>
                         <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
+                            <h5 class="card-title">{{$moderationAd->title}}</h5>
+                            <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $moderationAd->id])}}" class="btn-sm btn btn-primary">show</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-4 mt-2">
-                    <div class="card" style="border: 4px solid green">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mt-2">
-                    <div class="card" style="border: 4px solid green">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
         

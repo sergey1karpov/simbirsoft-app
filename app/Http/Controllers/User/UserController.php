@@ -21,9 +21,10 @@ class UserController extends Controller
 	{
 		$user = User::findOrFail($id);
 		$draftAds = $user->ads()->where('status', 'draft')->get();
+		$moderationAds = $user->ads()->where('status', 'On Moderation')->get();
 
 		if($user->role == 'User' && $user->id == $id) {
-			return view('user.user_home', compact('user', 'draftAds'));
+			return view('user.user_home', compact('user', 'draftAds', 'moderationAds'));
 		} else {
 			return abort('404');
 		}	
@@ -112,6 +113,11 @@ class UserController extends Controller
 		if($user) {
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
+
+				if($ad->status == 'On Moderation') {
+					return redirect()->back()->with('status', 'Sorry, the ad on moderation');
+				}
+
 				$ad->title = $request->title;
 				$ad->category_id = 1;
 				$ad->city_id = $request->city;
@@ -142,10 +148,29 @@ class UserController extends Controller
 		if($user) {
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
+
+				if($ad->status == 'On Moderation') {
+					return redirect()->back()->with('status', 'Sorry, the ad on moderation');
+				}
+
 				$ad->delete();
 				return redirect()->route('user.home', ['id' => auth()->user()->id])->with('status', 'Draft ad is deleted');
 			}
 		}
 	}
+
+	public function sendToModer($id, $ad)
+	{
+		$user = User::findOrFail($id);
+		if($user) {
+			$ad = Ad::findOrFail($ad);
+			if($ad) {
+				$ad->status = 'On Moderation';
+				$ad->update();
+
+				return redirect()->back()->with('status', 'Your ad send on moder');
+			}
+		}
+	} 
 
 }

@@ -94,4 +94,6 @@ Route::prefix('user')->group(function() {
     Route::get('{id}/ad/{ad}/edit', [App\Http\Controllers\User\UserController::class, 'editDraftAd'])->name('editDraftAd');
     Route::patch('{id}/ad/{ad}/edit', [App\Http\Controllers\User\UserController::class, 'updateDraftAd'])->name('updateDraftAd');
     Route::delete('{id}/ad/{ad}/delete', [App\Http\Controllers\User\UserController::class, 'deleteDraftAd'])->name('deleteDraftAd');
+
+    Route::patch('/{id}/ad/{ad}/moderation', [App\Http\Controllers\User\UserController::class, 'sendToModer'])->name('sendToModer');
 });
