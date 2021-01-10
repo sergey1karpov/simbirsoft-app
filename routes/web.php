@@ -75,6 +75,7 @@ Route::prefix('admin')->group(function() {
 Route::prefix('moderator')->group(function() {
 
 	Route::get('/{id}', [App\Http\Controllers\Moderator\ModeratorController::class, 'index'])->name('moderator.home');
+    Route::get('/{id}/moderation/{ad}/show', [App\Http\Controllers\Moderator\ModeratorController::class, 'showModerationOnAd'])->name('showModerationOnAd');
 
 });
 
