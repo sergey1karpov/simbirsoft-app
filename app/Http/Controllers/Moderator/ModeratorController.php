@@ -65,5 +65,29 @@ class ModeratorController extends Controller
 			}
 		}
 	}
+
+	public function makeActiveAd(Request $request, $id, $ad)
+	{
+		$moderator = User::findOrFail($id);
+
+		if($moderator) {
+			$ad = Ad::findOrFail($ad);
+			if($ad) {
+
+				$moderatingAd = new Moderation();
+				$moderatingAd->ad_id = $ad->id;
+				$moderatingAd->user_id = $moderator->id;
+				$moderatingAd->decesion = 'Active';
+				$moderatingAd->why = $request->why;
+				$moderatingAd->moderation_date = Carbon::now();
+				$moderatingAd->save();
+
+				$ad->status = 'active';
+				$ad->update();
+
+				return redirect()->back()->with('status', 'Ad is active');
+			}
+		}
+	}
 }
 

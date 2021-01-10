@@ -10,20 +10,21 @@
 
 <div class="container">
 
-    @if($whyFalse == true)
-        <h2>Check your ad and send on moderation again</h2>
-        <form action="{{route('sendToModer', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
-            @csrf @method('PATCH')
-            <button class="btn btn-primary">Send to moderation</button>
-        </form>
+    @if($whyFalse)
+        @if($whyFalse->decesion == 'False')
+            <h2>Check your ad and send on moderation again</h2>
+            <form action="{{route('sendToModer', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
+                @csrf @method('PATCH')
+                <button class="btn btn-primary">Send to moderation</button>
+            </form>
 
-        <h2>You ad is rejected for reason:</h2>
-        <div class="alelrt alert-danger">
-            <h6>{{$whyFalse->why}}</h6>
+            <h2>You ad is rejected for reason:</h2>
+            <div class="alelrt alert-danger">
+                <h6>{{$whyFalse->why}}</h6>
+            </div>
+        @endif
+    @endif    
 
-
-        </div>
-    @endif
     @if($draftAd->status == 'on moderation')
         <h2>Please wait:</h2>
         <div class="alelrt alert-success">
@@ -40,7 +41,11 @@
        			@foreach(unserialize($draftAd->photos) as $ph)
        				<img src="{{$ph}}" class="img-fluid">
        			@endforeach
+
+                
                 <a href="{{route('editDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">edit</a>
+                
+
                 <form action="{{route('deleteDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
                     @csrf @method('DELETE')
                     <button class="btn btn-danger">delete</button>

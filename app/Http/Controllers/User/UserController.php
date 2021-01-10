@@ -20,6 +20,7 @@ class UserController extends Controller
 	public function index($id)
 	{
 		$user = User::findOrFail($id);
+		$activeAds = $user->ads()->where('status', 'active')->get();
 		$draftAds = $user->ads()->where('status', 'draft')->get();
 		$moderationAds = $user->ads()
 			->where('status', 'on moderation')
@@ -27,7 +28,7 @@ class UserController extends Controller
 			->get();
 
 		if($user->role == 'User' && $user->id == $id) {
-			return view('user.user_home', compact('user', 'draftAds', 'moderationAds'));
+			return view('user.user_home', compact('user', 'draftAds', 'moderationAds', 'activeAds'));
 		} else {
 			return abort('404');
 		}	
@@ -118,8 +119,8 @@ class UserController extends Controller
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
 
-				if($ad->status == 'on moderation') {
-					return redirect()->back()->with('status', 'Sorry, the ad on moderation');
+				if($ad->status == 'on moderation' || $ad->status == 'active') {
+					return redirect()->back()->with('status', 'Sorry, You cant edit this ad');
 				}
 
 				$ad->title = $request->title;

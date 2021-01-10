@@ -77,6 +77,7 @@ Route::prefix('moderator')->group(function() {
 	Route::get('/{id}', [App\Http\Controllers\Moderator\ModeratorController::class, 'index'])->name('moderator.home');
     Route::get('/{id}/moderation/{ad}/show', [App\Http\Controllers\Moderator\ModeratorController::class, 'showModerationOnAd'])->name('showModerationOnAd');
     Route::post('/{id}/moderation/{ad}/why', [App\Http\Controllers\Moderator\ModeratorController::class, 'why'])->name('why');
+    Route::patch('/{id}/moderation/{ad}/active', [App\Http\Controllers\Moderator\ModeratorController::class, 'makeActiveAd'])->name('makeActiveAd');
 
 });
 

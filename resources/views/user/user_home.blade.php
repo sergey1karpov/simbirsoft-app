@@ -25,33 +25,18 @@
         <div class="col-12">
             <h4>My active ads</h4>
             <div class="row">
-                <div class="col-4 mt-2">
-                    <div class="card">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
+                @foreach($activeAds as $activeAd)
+                    <div class="col-4 mt-2">
+                        <div class="card">
+                            <div style="height:200px; background-size: cover; background-image: url({{$activeAd->photo}})"></div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{$activeAd->title}}</h5>
+                                <h6 class="card-title">{{$activeAd->price}} rubles</h6>
+                                <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $activeAd->id])}}" class="btn-sm btn btn-primary">show</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-4 mt-2">
-                    <div class="card">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4 mt-2">
-                    <div class="card">
-                        <img src="https://www.dummyimage.com/600x400/000/fff" class="img-fluid card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <a href="#" class="btn-sm btn btn-primary">show</a>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <h4 class="mt-2">Drafts(This ads can be edited)</h4>
@@ -60,18 +45,31 @@
                 <div class="col-4 mt-2">
                     <div class="card">
                         <div style="height:200px; background-size: cover; background-image: url({{$draftAd->photo}})"></div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{$draftAd->title}}</h5>
-                            <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">show</a>
-                            <a href="{{route('editDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">edit</a>
-                            <form action="{{route('deleteDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-danger">delete</button>
-                            </form>
-                            <form action="{{route('sendToModer', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
-                                @csrf @method('PATCH')
-                                <button class="btn btn-primary">Send to moderation</button>
-                            </form>
+                        <div class="card-body" style="padding: 0">
+                            <h5 style="padding-left: 4px; padding-right: 4px" class="card-title">{{$draftAd->title}}</h5>
+                            <div class="row mb-1" style="padding-left: 4px; padding-right: 4px">
+                                <div class="col-2" style="padding-right: 0">
+                                    <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">Show</a>
+                                </div>
+                                <div class="col-2" style="padding: 0">
+                                    <a href="{{route('editDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">Edit</a>
+                                </div>
+                                <div class="col-3" style="padding: 0">
+                                    <form action="{{route('deleteDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
+                                        @csrf @method('DELETE')
+                                        <button style="padding: " class="btn-sm btn btn-danger">DELETE</button>
+                                    </form>
+                                </div>
+                                <div class="col-5 text-right" style="padding-left: 0">
+                                    <form action="{{route('sendToModer', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
+                                        @csrf @method('PATCH')
+                                        <button class="btn-sm btn btn-primary">Send to moder</button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            
+                            
                         </div>
                     </div>
                 </div>

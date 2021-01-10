@@ -23,6 +23,10 @@
                                     <div class="card-body">
                                         <h5 class="card-title">{{$ad->title}}</h5>
                                         <a href="{{route('showModerationOnAd', ['id' => $ad->user_id, 'ad' => $ad->id])}}" class="btn-sm btn btn-primary">show</a>
+                                        <form action="{{route('makeActiveAd', ['id' => auth()->user()->id, 'ad' => $ad->id])}}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button class="btn btn-sm btn-primary">Make active</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
