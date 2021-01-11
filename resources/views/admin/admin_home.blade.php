@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container">
+    @if (session('status'))
+        <div class="alert alert-success" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif  
     <div class="row justify-content-center">
         <div class="col-12">
             <div>
@@ -14,17 +19,35 @@
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-8">
-                                    {{$allUser->id}} | {{$allUser->name}} | {{$allUser->status}}
+                                    {{$allUser->id}} | {{$allUser->name}} | {{$allUser->status}} | {{$allUser->role}} 
                                 </div>
                                 <div class="col-2 text-right">
-                                    <form>
-                                        <button class="btn btn-sm btn-success">Edit</button>
-                                    </form>
+                                    @if($allUser->role == 'User')
+                                        <form action="{{route('changeRole', ['id' => Auth::user()->id, 'userId' => $allUser->id])}}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button class="btn btn-sm btn-success">Make moder</button>
+                                        </form>
+                                    @endif
+                                    @if($allUser->role == 'Moderator')
+                                        <form action="{{route('changeRole', ['id' => Auth::user()->id, 'userId' => $allUser->id])}}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button class="btn btn-sm btn-danger">Make user</button>
+                                        </form>
+                                    @endif
                                 </div>
                                 <div class="col-2 text-right">
-                                    <form>
-                                        <button class="btn btn-sm btn-danger">Delere</button>
-                                    </form>
+                                    @if($allUser->status == 'Active')
+                                        <form action="{{route('changeStatus', ['id' => Auth::user()->id, 'userId' => $allUser->id])}}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button class="btn btn-sm btn-danger">Banned</button>
+                                        </form>
+                                    @endif
+                                    @if($allUser->status == 'Banned')
+                                        <form action="{{route('changeStatus', ['id' => Auth::user()->id, 'userId' => $allUser->id])}}" method="POST">
+                                            @csrf @method('PATCH')
+                                            <button class="btn btn-sm btn-success">Activated</button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </li>

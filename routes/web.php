@@ -65,6 +65,9 @@ Route::prefix('admin')->group(function() {
 	Route::get('/{id}', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
     Route::get('/{id}/create-user', [App\Http\Controllers\Admin\AdminController::class, 'showCreateUserForm'])->name('showCreateUserForm');
     Route::post('/{id}/create-user', [App\Http\Controllers\Admin\AdminController::class, 'createUser'])->name('createUser');
+
+    Route::patch('/{id}/status/{userId}', [App\Http\Controllers\Admin\AdminController::class, 'changeStatus'])->name('changeStatus');
+    Route::patch('/{id}/role/{userId}', [App\Http\Controllers\Admin\AdminController::class, 'changeRole'])->name('changeRole');
 });
 
 /*
