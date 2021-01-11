@@ -63,7 +63,8 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::prefix('admin')->group(function() {
 
 	Route::get('/{id}', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
-
+    Route::get('/{id}/create-user', [App\Http\Controllers\Admin\AdminController::class, 'showCreateUserForm'])->name('showCreateUserForm');
+    Route::post('/{id}/create-user', [App\Http\Controllers\Admin\AdminController::class, 'createUser'])->name('createUser');
 });
 
 /*
