@@ -10,6 +10,7 @@ use App\Models\City;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\NewAdRequest;
+use App\Models\Category;
 
 
 class UserController extends Controller
@@ -42,7 +43,9 @@ class UserController extends Controller
 		$user = User::findOrFail($id);
 		$cities = City::all();
 
-		return view('user.show_ad_form', compact('user', 'cities'));
+		$categories = Category::isLeaf()->get();
+
+		return view('user.show_ad_form', compact('user', 'cities', 'categories'));
 	}
 
 	/**
@@ -61,7 +64,7 @@ class UserController extends Controller
 		} else {
 			$ad = new Ad();
 			$ad->title = $request->title;
-			$ad->category_id = 1;
+			$ad->category_id = $request->category;
 			$ad->city_id = $request->city;
 			$ad->description = $request->description;
 
@@ -92,10 +95,14 @@ class UserController extends Controller
 	public function showAd($id, $ad) 
 	{
 		$user = User::findOrFail($id);
+
 		if($user) {
 			$draftAd = Ad::findOrFail($ad);
+
+			$categories = Category::find($draftAd->category_id)->ancestorsAndSelf;
+
 			$whyFalse = $draftAd->moderation()->where('ad_id', $ad)->latest()->first();
-			return view('user.draftAd', compact('user', 'draftAd', 'whyFalse'));
+			return view('user.draftAd', compact('user', 'draftAd', 'whyFalse', 'categories'));
 		}
 	}
 

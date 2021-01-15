@@ -36,13 +36,9 @@
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select class="form-control" id="category" name="category">
-                            <option>PS5</option>
-                            <option>PS4</option>
-                            <option>PS3</option>
-                            <option>XBOX X</option>
-                            <option>XBOX S</option>
-                            <option>XBOX One</option>
-                            <option>XBOX 360</option>
+                            @foreach($categories as $category)
+                                <option value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">

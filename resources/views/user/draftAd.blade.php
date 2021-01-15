@@ -10,6 +10,14 @@
 
 <div class="container">
 
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach($categories->reverse() as $category)
+                <li class="breadcrumb-item active" aria-current="page">{{$category->name}}</li>
+            @endforeach
+        </ol>
+    </nav>
+
     @if($whyFalse)
         @if($whyFalse->decesion == 'False')
             <h2>Check your ad and send on moderation again</h2>
@@ -33,8 +41,8 @@
     @endif
 
 	<div class="row">
-			<img src="{{$draftAd->photo}}" class="img-fluid">
 			<div class="card-body">
+                <img src="{{$draftAd->photo}}" class="img-fluid">
                 <h3 class="card-title">{{$draftAd->title}}</h3>
                 <h5 class="card-title">{{$draftAd->description}}</h5> 
                 <h5 class="card-title">{{$draftAd->price}}</h5> 
