@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Ad;
 use App\Models\Moderation;
 use Illuminate\Support\Carbon;
+use App\Models\Category;
 
 class ModeratorController extends Controller
 {
@@ -66,6 +67,19 @@ class ModeratorController extends Controller
 		}
 	}
 
+	public function generateUrl($url)
+	{
+		$aaa = [];
+		$cats = Category::find($url)->ancestorsAndSelf;
+		$categories = $cats->reverse();
+		foreach($categories as $aa) {
+			$aaa[] = $aa->slug;
+		}
+		$bbb = implode(',', $aaa);
+		$x = str_replace(',', '-', $bbb);
+		return $x.'-product-'.getrandmax();
+	}
+
 	public function makeActiveAd(Request $request, $id, $ad)
 	{
 		$moderator = User::findOrFail($id);
@@ -79,9 +93,10 @@ class ModeratorController extends Controller
 				$moderatingAd->user_id = $moderator->id;
 				$moderatingAd->decesion = 'Active';
 				$moderatingAd->why = $request->why;
-				$moderatingAd->moderation_date = Carbon::now();
+				$moderatingAd->moderation_date = Carbon::now();		
 				$moderatingAd->save();
 
+				$ad->slug = $this->generateUrl($ad->category_id);
 				$ad->status = 'active';
 				$ad->update();
 
@@ -90,4 +105,7 @@ class ModeratorController extends Controller
 		}
 	}
 }
+
+
+
 

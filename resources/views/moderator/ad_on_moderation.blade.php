@@ -10,9 +10,9 @@
 
 <div class="container">
 	<div class="row">
-        <h5>Ad by {{$userAd->name}}</h5>
-			<img src="{{$ad->photo}}" class="img-fluid">
 			<div class="card-body">
+                <h5>Ad by {{$userAd->name}}</h5>
+                <img src="{{$ad->photo}}" class="img-fluid">
                 <h3 class="card-title">{{$ad->title}}</h3>
                 <h5 class="card-title">{{$ad->description}}</h5> 
                 <h5 class="card-title">{{$ad->price}}</h5> 
