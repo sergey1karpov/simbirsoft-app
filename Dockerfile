@@ -24,6 +24,8 @@ RUN apt-get update && apt-get install -y \
     git \
     curl
 
+RUN docker-php-ext-install sockets    
+
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

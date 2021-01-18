@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use App\Jobs\WelcomeNewUser;
 
 class RegisterController extends Controller
 {
@@ -86,7 +87,8 @@ class RegisterController extends Controller
     {
         $this->validator($request->all())->validate();
 
-        event(new Registered($user = $this->create($request->all())));
+        // event(new Registered($user = $this->create($request->all())));
+        WelcomeNewUser::dispatch($user = $this->create($request->all()));
 
         $this->guard()->login($user);
 

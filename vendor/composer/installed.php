@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => 'ab53d709a77d99703e998fcfff2502c96f4ff87d',
+    'reference' => '7bb557542cf19d7911cdaf353186a5b6d98f3b27',
     'name' => 'laravel/laravel',
   ),
   'versions' => 
@@ -472,7 +472,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => 'ab53d709a77d99703e998fcfff2502c96f4ff87d',
+      'reference' => '7bb557542cf19d7911cdaf353186a5b6d98f3b27',
     ),
     'laravel/sail' => 
     array (
@@ -620,6 +620,15 @@
       ),
       'reference' => 'e4782611070e50613683d2b9a57730e9a3ba5451',
     ),
+    'php-amqplib/php-amqplib' => 
+    array (
+      'pretty_version' => 'v2.12.1',
+      'version' => '2.12.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0eaaa9d5d45335f4342f69603288883388c2fe21',
+    ),
     'phpdocumentor/reflection-common' => 
     array (
       'pretty_version' => '2.2.0',
@@ -655,6 +664,15 @@
       array (
       ),
       'reference' => '994ecccd8f3283ecf5ac33254543eb0ac946d525',
+    ),
+    'phpseclib/phpseclib' => 
+    array (
+      'pretty_version' => '2.0.30',
+      'version' => '2.0.30.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '136b9ca7eebef78be14abf90d65c5e57b6bc5d36',
     ),
     'phpspec/prophecy' => 
     array (
@@ -1297,6 +1315,22 @@
       array (
       ),
       'reference' => 'b43b05cf43c1b6d849478965062b6ef73e223bb5',
+    ),
+    'videlalvaro/php-amqplib' => 
+    array (
+      'replaced' => 
+      array (
+        0 => 'v2.12.1',
+      ),
+    ),
+    'vladimir-yuldashev/laravel-queue-rabbitmq' => 
+    array (
+      'pretty_version' => 'v11.1.1',
+      'version' => '11.1.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a63f61ab0f7f9c95ca430997e9d2793f6acc7138',
     ),
     'vlucas/phpdotenv' => 
     array (
