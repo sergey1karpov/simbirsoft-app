@@ -18,9 +18,9 @@ class AdminController extends Controller
 	{
 		$admin = User::findOrfail($id);
 		$allUsers = User::orderBy('id')->get();
-		$moderationAds = Ad::where('status', 'on moderation')->get();
+		$moderationAds = Ad::where('status', Ad::ON_MODERATION)->get();
 		
-		if($admin->role == 'Admin' && $admin->id == $id) {
+		if($admin->role == User::ADMIN && $admin->id == $id) {
 			return view('admin.admin_home', compact('admin', 'allUsers', 'moderationAds'));
 		} else {
 			return abort(404);
@@ -68,14 +68,14 @@ class AdminController extends Controller
 		if($admin) {
 			$changeUserStatus = User::findOrFail($userId);
 			
-			if($changeUserStatus->status == 'Active') {
-				$changeUserStatus->status = 'Banned';
+			if($changeUserStatus->status == User::ACTIVE) {
+				$changeUserStatus->status = User::BANNED;
 				$changeUserStatus->update();
 				return redirect()->back()->with('status', 'User banned');
 			}
 
-			if($changeUserStatus->status == 'Banned') {
-				$changeUserStatus->status = 'Active';
+			if($changeUserStatus->status == User::BANNED) {
+				$changeUserStatus->status = User::ACTIVE;
 				$changeUserStatus->update();
 				return redirect()->back()->with('status', 'User Activated');
 			}
@@ -88,14 +88,14 @@ class AdminController extends Controller
 		if($admin) {
 			$changeUserRole = User::findOrFail($userId);
 			
-			if($changeUserRole->role == 'Moderator') {
-				$changeUserRole->role = 'User';
+			if($changeUserRole->role == User::MODERATOR) {
+				$changeUserRole->role = User::USER;
 				$changeUserRole->update();
 				return redirect()->back()->with('status', 'Make user');
 			}
 
-			if($changeUserRole->role == 'User') {
-				$changeUserRole->role = 'Moderator';
+			if($changeUserRole->role == User::USER) {
+				$changeUserRole->role = User::MODERATOR;
 				$changeUserRole->update();
 				return redirect()->back()->with('status', 'make moder');
 			}

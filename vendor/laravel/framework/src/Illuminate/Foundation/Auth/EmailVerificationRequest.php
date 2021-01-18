@@ -63,5 +63,4 @@ class EmailVerificationRequest extends FormRequest
     {
         return $validator;
     }
-
 }

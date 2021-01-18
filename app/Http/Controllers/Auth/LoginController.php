@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class LoginController extends Controller
 {
@@ -37,13 +38,13 @@ class LoginController extends Controller
      */
     protected function redirectTo() {
         switch(auth()->user()->role) {
-            case 'User':
+            case User::USER:
                 return 'user/'.auth()->user()->id;
                 break;
-            case 'Moderator':
+            case User::MODERATOR:
                 return 'moderator/'.auth()->user()->id;
                 break;
-            case 'Admin':
+            case User::ADMIN:
                 return 'admin/'.auth()->user()->id;
                 break;
         }

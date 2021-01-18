@@ -36,31 +36,27 @@ class SluggableObserver
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $model
-     * @return bool|void
+     * @return boolean|null
      */
-    public function saved(Model $model)
+    public function saving(Model $model)
     {
-        if ($this->generateSlug($model, 'saved')) {
-            return $model->saveQuietly();
-        }
+        return $this->generateSlug($model, 'saving');
     }
 
     /**
      * @param \Illuminate\Database\Eloquent\Model $model
      * @param string $event
-     * @return boolean
+     * @return boolean|void
      */
-    protected function generateSlug(Model $model, string $event): bool
+    protected function generateSlug(Model $model, string $event)
     {
         // If the "slugging" event returns false, abort
         if ($this->fireSluggingEvent($model, $event) === false) {
-            return false;
+            return;
         }
         $wasSlugged = $this->slugService->slug($model);
 
         $this->fireSluggedEvent($model, $wasSlugged);
-
-        return $wasSlugged;
     }
 
     /**
@@ -68,9 +64,9 @@ class SluggableObserver
      *
      * @param  \Illuminate\Database\Eloquent\Model $model
      * @param  string $event
-     * @return array|null
+     * @return mixed
      */
-    protected function fireSluggingEvent(Model $model, string $event): ?array
+    protected function fireSluggingEvent(Model $model, string $event)
     {
         return $this->events->until('eloquent.slugging: ' . get_class($model), [$model, $event]);
     }
@@ -80,9 +76,8 @@ class SluggableObserver
      *
      * @param  \Illuminate\Database\Eloquent\Model $model
      * @param  string $status
-     * @return void
      */
-    protected function fireSluggedEvent(Model $model, string $status): void
+    protected function fireSluggedEvent(Model $model, string $status)
     {
         $this->events->dispatch('eloquent.slugged: ' . get_class($model), [$model, $status]);
     }

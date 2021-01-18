@@ -94,6 +94,6 @@ class RegisterController extends Controller
             return $response;
         }
 
-        return redirect()->to('/')->with('error', 'Please confirm your account. We sended confirmed link in you email.');
+        return redirect()->to('user/'.auth()->user()->id)->with('error', 'Please confirm your account. We sended confirmed link in you email.');
     }
 }

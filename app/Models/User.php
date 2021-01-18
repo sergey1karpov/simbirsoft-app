@@ -11,6 +11,21 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
+
+    /**
+     *User status
+     */
+    public const NO_ACTIVE = 'No Active';
+    public const BANNED = 'Banned';
+    public const ACTIVE = 'Active';
+
+    /**
+     *User roles
+     */
+    public const USER = 'User';
+    public const MODERATOR = 'Moderator';
+    public const ADMIN = 'Admin';
+
     /**
      * The attributes that are mass assignable.
      *

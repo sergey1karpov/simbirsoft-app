@@ -7,11 +7,9 @@ use Cviebrock\EloquentSluggable\Tests\Models\PostShortConfig;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithCustomCallableMethod;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithCustomEngine;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithCustomEngine2;
-use Cviebrock\EloquentSluggable\Tests\Models\PostWithCustomEngineOptions;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithCustomMethod;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithCustomSeparator;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithCustomSource;
-use Cviebrock\EloquentSluggable\Tests\Models\PostWithIdSource;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithCustomSuffix;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithEmptySeparator;
 use Cviebrock\EloquentSluggable\Tests\Models\PostWithForeignRuleset;
@@ -204,9 +202,10 @@ class BaseTests extends TestCase
      */
     public function testNonSluggableModels()
     {
-        $post = PostNotSluggable::create([
+        $post = new PostNotSluggable([
             'title' => 'My First Post'
         ]);
+        $post->save();
         $this->assertEquals(null, $post->slug);
     }
 
@@ -368,9 +367,10 @@ class BaseTests extends TestCase
      */
     public function testCustomEngineRules()
     {
-        $post = PostWithCustomEngine::create([
+        $post = new PostWithCustomEngine([
             'title' => 'The quick brown fox jumps over the lazy dog'
         ]);
+        $post->save();
         $this->assertEquals('tha-qaack-brawn-fax-jamps-avar-tha-lazy-dag', $post->slug);
     }
 
@@ -379,18 +379,11 @@ class BaseTests extends TestCase
      */
     public function testCustomEngineRules2()
     {
-        $post = PostWithCustomEngine2::create([
+        $post = new PostWithCustomEngine2([
             'title' => 'The quick brown fox/jumps over/the lazy dog'
         ]);
+        $post->save();
         $this->assertEquals('the-quick-brown-fox/jumps-over/the-lazy-dog', $post->slug);
-    }
-
-    public function testCustomEngineOptions()
-    {
-        $post = PostWithCustomEngineOptions::create([
-            'title' => 'My First Post'
-        ]);
-        $this->assertEquals('My-First-Post', $post->slug);
     }
 
     /**
@@ -411,9 +404,10 @@ class BaseTests extends TestCase
      */
     public function testEmptySeparator()
     {
-        $post = PostWithEmptySeparator::create([
+        $post = new PostWithEmptySeparator([
             'title' => 'My Test Post'
         ]);
+        $post->save();
         $this->assertEquals('mytestpost', $post->slug);
     }
 
@@ -422,10 +416,11 @@ class BaseTests extends TestCase
      */
     public function testMultipleSlugs()
     {
-        $post = PostWithMultipleSlugs::create([
+        $post = new PostWithMultipleSlugs([
             'title' => 'My Test Post',
             'subtitle' => 'My Subtitle',
         ]);
+        $post->save();
 
         $this->assertEquals('my-test-post', $post->slug);
         $this->assertEquals('my.subtitle', $post->dummy);
@@ -436,9 +431,10 @@ class BaseTests extends TestCase
      */
     public function testSubscriptCharacters()
     {
-        $post = Post::create([
+        $post = new Post([
             'title' => 'RDA-125-15/30/45m³/h CAV'
         ]);
+        $post->save();
 
         $this->assertEquals('rda-125-15-30-45m3-h-cav', $post->slug);
     }
@@ -505,26 +501,5 @@ class BaseTests extends TestCase
         $post->slug = '';
         $post->save();
         $this->assertEquals('example-title', $post->slug);
-    }
-
-    /**
-     * Test that you can use the model's primary key
-     * as part of the source field.
-     */
-    public function testPrimaryKeyInSource()
-    {
-        $post = PostWithIdSource::create([
-            'title' => 'My First Post'
-        ]);
-        $this->assertEquals('my-first-post-1', $post->slug);
-
-        $post2 = PostWithIdSource::create([
-            'title' => 'My Second Post'
-        ]);
-        $this->assertEquals('my-second-post-2', $post2->slug);
-
-        $post->title = 'Still My First Post';
-        $post->save();
-        $this->assertEquals('still-my-first-post-1', $post->slug);
     }
 }

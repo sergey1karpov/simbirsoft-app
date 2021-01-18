@@ -9,6 +9,12 @@ class Moderation extends Model
 {
     use HasFactory;
 
+    /**
+     *Moderation status
+     */
+    public const TO_PUBLISH = 'True';
+    public const DO_NOT_PUBLISH = 'False';
+
     protected $table = "moderations";
 
     public function user() {

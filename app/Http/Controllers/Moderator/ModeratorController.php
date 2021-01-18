@@ -19,8 +19,8 @@ class ModeratorController extends Controller
 	{
 		$moderator = User::findOrFail($id);
 		
-		if($moderator->role == 'Moderator' && $moderator->id == $id) {
-			$ads = Ad::where('status', 'on moderation')->get();
+		if($moderator->role == User::MODERATOR && $moderator->id == $id) {
+			$ads = Ad::where('status', Ad::ON_MODERATION)->get();
 			return view('moderator.moderator_home', compact('moderator', 'ads'));
 		} else {
 			return abort(404);
@@ -54,12 +54,12 @@ class ModeratorController extends Controller
 				$moderatingAd = new Moderation();
 				$moderatingAd->ad_id = $ad->id;
 				$moderatingAd->user_id = $moderator->id;
-				$moderatingAd->decesion = 'False';
+				$moderatingAd->decesion = Moderation::DO_NOT_PUBLISH;
 				$moderatingAd->why = $request->why;
 				$moderatingAd->moderation_date = Carbon::now();
 				$moderatingAd->save();
 
-				$ad->status = 'false';
+				$ad->status = Ad::REJECTED;
 				$ad->update();
 
 				return redirect()->back()->with('status', 'Your review id send to user');
@@ -91,13 +91,13 @@ class ModeratorController extends Controller
 				$moderatingAd = new Moderation();
 				$moderatingAd->ad_id = $ad->id;
 				$moderatingAd->user_id = $moderator->id;
-				$moderatingAd->decesion = 'Active';
+				$moderatingAd->decesion = Moderation::TO_PUBLISH;
 				$moderatingAd->why = $request->why;
 				$moderatingAd->moderation_date = Carbon::now();		
 				$moderatingAd->save();
 
 				$ad->slug = $this->generateUrl($ad->category_id);
-				$ad->status = 'active';
+				$ad->status = Ad::ACTIVE;
 				$ad->update();
 
 				return redirect()->back()->with('status', 'Ad is active');

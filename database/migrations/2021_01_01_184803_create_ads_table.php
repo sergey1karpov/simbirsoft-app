@@ -26,6 +26,7 @@ class CreateAdsTable extends Migration
             $table->text('photo');
             $table->text('photos');
             $table->string('status');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -25,33 +25,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 /*
 |--------------------------------------------------------------------------
-| Show confirm message
-|--------------------------------------------------------------------------
-*/
-Route::get('/email/verify', function () {
-    return view('auth.verify-email');
-})->middleware('auth')->name('verification.notice');
-
-/*
-|--------------------------------------------------------------------------
 | Confirm email route
 |--------------------------------------------------------------------------
 */
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request, $id) {
-    $request->fulfill();
+Route::get('/email/verify', [App\Http\Controllers\Auth\ConfirmAccountController::class, 'verificationNotice'])->middleware('auth')->name('verification.notice');
 
-    $user = User::find($id);
-    $user->status = 'Active';
-    $user->update();
+Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Auth\ConfirmAccountController::class, 'verificationVerify'])->middleware(['auth', 'signed'])->name('verification.verify');
 
-    return redirect()->to('/')->with('good', 'You actuvated!');
-})->middleware(['auth', 'signed'])->name('verification.verify');
-
-Route::post('/email/verification-notification', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-
-    return back()->with('message', 'Verification link sent!');
-})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+Route::post('/email/verification-notification', [App\Http\Controllers\Auth\ConfirmAccountController::class, 'verificationVend'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 /*
 |--------------------------------------------------------------------------
