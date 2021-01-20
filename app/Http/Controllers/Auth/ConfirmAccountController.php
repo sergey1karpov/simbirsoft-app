@@ -20,7 +20,7 @@ class ConfirmAccountController extends Controller
 	    $user->status = User::ACTIVE;
 	    $user->update();
 
-	    return redirect()->to('/')->with('good', 'You actuvated!');
+	    return redirect()->to('/')->with('good', 'Nice work!');
     }
 
     public function verificationVend(Request $request) {
