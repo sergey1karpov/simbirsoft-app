@@ -85,6 +85,9 @@ services:
             - "5672:5672"
         labels:
             NAME: "rabbitmq" 
+        volumes:
+            - ./:/var/www
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini    
         networks:
             - postgres     
     #ElasticSearch
