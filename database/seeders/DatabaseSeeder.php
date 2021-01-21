@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,6 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CitiesTableSeeder::class);
         $this->call(RegionsTableSeeder::class);
         $this->call(CategoriesTableSeeder::class);
-        $this->call(UsersTableSeeder::class);
+        User::factory()->count(1)->create(); //Create Admin(admin@admin.com - q1w2e3r4)
     }
 }

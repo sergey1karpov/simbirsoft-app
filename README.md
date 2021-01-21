@@ -6,4 +6,7 @@
 
 4. php artisan migrate
 
-5. php artisan db:seed (Admin account['email' => 'admin@admin.com', 'pass' => 'q1w2e3r4']);
+5. php artisan db:seed
+После сидов у нас появится админ(admin@admin.com - q1w2e3r4)
+
+6. php artisan rabbitmq:consume
