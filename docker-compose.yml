@@ -18,7 +18,8 @@ services:
             - ./:/var/www
             - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
         networks:
-            - postgres
+            postgres:
+                ipv4_address: 172.20.128.2
     #Nginx Service
     webserver:
         image: nginx:alpine
@@ -84,10 +85,7 @@ services:
             - "15672:15672"
             - "5672:5672"
         labels:
-            NAME: "rabbitmq" 
-        volumes:
-            - ./:/var/www
-            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini    
+            NAME: "rabbitmq"    
         networks:
             - postgres     
     #ElasticSearch
@@ -100,8 +98,11 @@ services:
             - postgres                      
 #Docker Networks
 networks:
-  postgres:
-    driver: bridge
+    postgres:
+        ipam:
+            config:
+                - subnet: 172.20.0.0/16
+
 volumes:
     postgres:
     pgadmin:   
