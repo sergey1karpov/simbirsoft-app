@@ -9,4 +9,4 @@
 5. php artisan db:seed
 После сидов у нас появится админ(admin@admin.com - q1w2e3r4)
 
-6. php artisan rabbitmq:consume
+6. php artisan queue:work
