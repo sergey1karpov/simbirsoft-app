@@ -68,6 +68,7 @@ trait AuthenticatesUsers
         $request->validate([
             $this->username() => 'required|string',
             'password' => 'required|string',
+            'g-recaptcha-response' => 'recaptcha',
         ]);
     }
 
@@ -125,7 +126,10 @@ trait AuthenticatesUsers
      */
     protected function authenticated(Request $request, $user)
     {
-        //
+        if($request->ip() != $user->user_ip) {
+            $request->session()->flash('status', 'signed in from unknown ip');
+        }
+        //Send error email???
     }
 
     /**

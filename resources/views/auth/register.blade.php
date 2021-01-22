@@ -83,6 +83,8 @@
                             </div>
                         </div>
 
+                        <input type="hidden" value="{{Request::ip()}}" name="user_ip">
+
                         
                         <div class="form-group row">  
                             <div class="col-md-6 offset-md-4">

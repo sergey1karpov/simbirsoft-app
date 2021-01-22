@@ -9,18 +9,13 @@
 @endif
 
 @if (session('status'))
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-success ml-5 mr-5" role="alert">
         {{ session('status') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 @endif 
-
-<!-- @if(Auth::user()->user_ip)
-    @if(Auth::user()->user_ip != Request::ip())
-    <div class="alert alert-danger" role="alert">
-        <h4>unknown ip address</h4>
-    </div>    
-    @endif
-@endif -->
 
 <div class="container">
     <div class="mb-5">

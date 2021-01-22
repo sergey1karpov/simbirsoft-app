@@ -58,6 +58,7 @@ class RegisterController extends Controller
             'password' => 'required|string|min:8|confirmed',
             'telephone' => 'required|unique:users|min:5|max:25',
             'g-recaptcha-response' => 'recaptcha',
+            'user_ip' => 'required|ip',
         ]);
     }
 
@@ -72,6 +73,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'user_ip' => $data['user_ip'],
             'telephone' => Hash::make($data['telephone']),
             'password' => Hash::make($data['password']),
         ]);
