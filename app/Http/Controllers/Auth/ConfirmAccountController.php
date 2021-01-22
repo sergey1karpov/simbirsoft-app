@@ -18,6 +18,7 @@ class ConfirmAccountController extends Controller
 
 	    $user = User::find($id);
 	    $user->status = User::ACTIVE;
+        $user->user_ip = $request->ip();
 	    $user->update();
 
 	    return redirect()->to('/')->with('good', 'Nice work!');

@@ -14,6 +14,14 @@
     </div>
 @endif 
 
+<!-- @if(Auth::user()->user_ip)
+    @if(Auth::user()->user_ip != Request::ip())
+    <div class="alert alert-danger" role="alert">
+        <h4>unknown ip address</h4>
+    </div>    
+    @endif
+@endif -->
+
 <div class="container">
     <div class="mb-5">
         <a href="{{route('showForm', Auth::user()->id)}}">
