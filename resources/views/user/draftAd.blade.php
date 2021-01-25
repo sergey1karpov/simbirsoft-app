@@ -9,8 +9,8 @@
 @endif 
 
 <div class="container">
-
     <nav aria-label="breadcrumb">
+        <small class="text-muted">The ad will be located in the category:</small>
         <ol class="breadcrumb">
             @foreach($categories->reverse() as $category)
                 <li class="breadcrumb-item active" aria-current="page">{{$category->name}}</li>
@@ -40,26 +40,68 @@
         </div>
     @endif
 
-	<div class="row">
-			<div class="card-body">
+    <div class="row">
+        <div class="col-6">
+            <div>
                 <img src="{{$draftAd->photo}}" class="img-fluid">
-                <h3 class="card-title">{{$draftAd->title}}</h3>
-                <h5 class="card-title">{{$draftAd->description}}</h5> 
-                <h5 class="card-title">{{$draftAd->price}}</h5> 
-       			@foreach(unserialize($draftAd->photos) as $ph)
-       				<img src="{{$ph}}" class="img-fluid">
-       			@endforeach
-
-                
-                <a href="{{route('editDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">edit</a>
-                
-
-                <form action="{{route('deleteDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
-                    @csrf @method('DELETE')
-                    <button class="btn btn-danger">delete</button>
-                </form>
+                <small class="text-muted">Main image</small>
             </div>
-		
+            <div id="carouselExampleControls" class="carousel slide mt-2" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    @foreach( unserialize($draftAd->photos) as $index => $photo )
+                        <li data-target="#carouselExampleIndicators" class="{{ $index == 0 ? 'active' : '' }}"></li>
+                    @endforeach
+                </ol>
+             
+                <div class="carousel-inner" role="listbox">
+                    @foreach( unserialize($draftAd->photos) as $index => $photo  )
+                        <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                            <img class="d-block img-fluid" src="{{ $photo }}">
+                        </div>
+                    @endforeach
+                </div>
+                <small class="text-muted">Additional images</small>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div> 
+        </div>
+        <div class="col-6">
+            <div>
+                <h2 class="card-title">{{$draftAd->title}}</h2>
+            </div>
+            <div>
+                <h5 class="card-title">{{$draftAd->description}}</h5>
+            </div>
+            <div>
+                <h5 class="card-title">{{$draftAd->price}}</h5> 
+            </div>
+        </div>
+    </div>    
+
+	<div class="row mt-2" style="padding-left: 15px">
+        <div class="mr-1">
+            <a href="{{route('editDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" class="btn-sm btn btn-primary">edit</a>
+        </div>
+        <div class="ml-1 mr-1">
+            <form action="{{route('deleteDraftAd', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
+                @csrf @method('DELETE')
+                <button class="btn btn-danger btn-sm">delete</button>
+            </form>
+        </div>
+        @if($draftAd->status == 'Draft')
+        <div class="ml-1">
+            <form action="{{route('sendToModer', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
+                @csrf @method('PATCH')
+                <button class="btn-sm btn btn-primary">Send to moder</button>
+            </form>
+        </div>
+        @endif
 	</div>
 </div>	
 

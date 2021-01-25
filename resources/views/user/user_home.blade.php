@@ -35,7 +35,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{$activeAd->title}}</h5>
                                 <h6 class="card-title">{{$activeAd->price}} rubles</h6>
-                                <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $activeAd->id])}}" class="btn-sm btn btn-primary">show</a>
+                                <a href="{{ route('show', $activeAd->slug) }}" class="btn-sm btn btn-primary">show</a>
                             </div>
                         </div>
                     </div>
@@ -79,18 +79,33 @@
                 @endforeach
             </div>
       
-            <h4 class="mt-2">Ads on moderation(If ad have red border, ad == false, if green yellow, ad == wait, else ad moves to active)</h4>
+            <h4 class="mt-2">Ads on moderation</h4>
             <div class="row">
                 @foreach($moderationAds as $moderationAd)
                 <div class="col-4 mt-2">
                     <div class="card" 
-                    @if($moderationAd->status == 'on moderation')style="border: 4px solid yellow" @endif
-                    @if($moderationAd->status == 'false')style="border: 4px solid red" @endif    
+                    @if($moderationAd->status == 'On Moderation')style="border: 4px solid yellow" @endif
+                    @if($moderationAd->status == 'False')style="border: 4px solid red" @endif    
                     >
                         <div style="height:200px; background-size: cover; background-image: url({{$moderationAd->photo}})"></div>
                         <div class="card-body">
                             <h5 class="card-title">{{$moderationAd->title}}</h5>
                             <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $moderationAd->id])}}" class="btn-sm btn btn-primary">show</a>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <h4 class="mt-2">Deleted ads</h4>
+            <div class="row">
+                @foreach($deleted as $del)
+                <div class="col-3 mt-2">
+                    <div class="card" style="background-color:rgba(0,0,0,.3);">
+                        <div style="height:200px; background-size: cover; background-image: url({{$del->photo}})"></div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{$del->title}}</h5>
+                            <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $del->id])}}" class="btn-sm btn btn-primary">show</a>
                         </div>
                     </div>
                 </div>

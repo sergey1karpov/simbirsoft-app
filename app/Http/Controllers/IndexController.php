@@ -9,7 +9,7 @@ class IndexController extends Controller
 {
     public function index() 
     {
-    	$ads = Ad::where('status', 'active')->get();
+    	$ads = Ad::where('status', Ad::ACTIVE)->get();
     	return view('index', compact('ads'));
     }
 

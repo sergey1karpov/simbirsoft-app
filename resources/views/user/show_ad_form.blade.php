@@ -2,13 +2,12 @@
 
 @section('content')
 
-@if($user->status == 'No Active')
-    <div class="alert alert-danger ml-5 mr-5">
-        <h5>If you want publish your ads, please, activate you account</h5>
-    </div>
-@endif
-
 <div class="container">
+    @if($user->status == 'No Active')
+        <div class="alert alert-danger ml-5 mr-5">
+            <h5>If you want publish your ads, please, activate you account</h5>
+        </div>
+    @endif
     <div class="row justify-content-center">
         <div class="col-8">
             @if ($errors->any())

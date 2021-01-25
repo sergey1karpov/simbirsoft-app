@@ -10,19 +10,15 @@
             <div class="col">
                 <div class="card shadow-sm">
                 
-
+                <a href="{{ route('show', $ad->slug) }}" style="text-decoration: none; color:black;">
                 <div class="">
                     <div style="height:200px; background-size: cover; background-image: url({{$ad->photo}})"></div>
-                    <p class="card-text">{{$ad->title}}</p>
-                    <p class="card-text"><h6>{{$ad->price}} rubles</h6></p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                            <a href="{{ route('show', $ad->slug) }}">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                            </a>
-                        </div>
-                    </div>
+                    <h5 class="ml-1 card-text">{{$ad->title}}</h5>
+                    <h6 class="ml-1 card-text">{{$ad->price}} rubles</h6>
+                    <small class="ml-1">publiched: {{$ad->created_at->diffForHumans()}}</small>
                 </div>
+                </a>    
+
                 </div>
             </div>    
             @endforeach

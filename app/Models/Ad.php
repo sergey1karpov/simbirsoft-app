@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Requests\NewAdRequest;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Exceptions\AdPhotosException;
 
 class Ad extends Model
 {
@@ -66,6 +67,11 @@ class Ad extends Model
         foreach($photos as $photo) {
             $urls[] = Storage::url($photo);
         }
+
+        if(count($photos) > 10) {
+            throw new AdPhotosException();   
+        }
+
         return serialize($urls);
     }
 

@@ -27,9 +27,10 @@ class UserController extends Controller
 			->where('status', Ad::ON_MODERATION)
 			->orWhere('status', Ad::REJECTED)
 			->get();
+		$deleted = $user->ads()->onlyTrashed()->get();	
 
 		if($user->role == User::USER && $user->id == $id) {
-			return view('user.user_home', compact('user', 'draftAds', 'moderationAds', 'activeAds'));
+			return view('user.user_home', compact('user', 'draftAds', 'moderationAds', 'activeAds', 'deleted'));
 		} else {
 			return abort('404');
 		}	
@@ -140,7 +141,7 @@ class UserController extends Controller
 		if($user) {
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
-				$ad->status == Ad::ON_MODERATION;
+				$ad->status = Ad::ON_MODERATION;
 				$ad->update();
 
 				return redirect()->back()->with('status', 'Your ad send on moder');
