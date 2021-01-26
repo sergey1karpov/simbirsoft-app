@@ -84,3 +84,4 @@ Route::prefix('user')->group(function() {
 
     Route::patch('/{id}/ad/{ad}/moderation', [App\Http\Controllers\User\UserController::class, 'sendToModer'])->name('sendToModer');
 });
+

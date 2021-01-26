@@ -58,7 +58,7 @@
                     </select>
                 </div>
 
-			  	<div class="form-group">
+			  	<!-- <div class="form-group">
 			    	<label for="password">User password</label>
 			    	<input type="password" class="form-control" id="password" placeholder="Enter password" name="password">
 			  	</div>
@@ -66,7 +66,7 @@
 			  	<div class="form-group">
 			    	<label for="password_confirmation">User confirm password</label>
 			    	<input type="password" class="form-control" id="password_confirmation" placeholder="Confirm password" name="password_confirmation">
-			  	</div>
+			  	</div> -->
 			  
 			 	<button type="submit" class="btn btn-primary">Submit</button>
 			</form>

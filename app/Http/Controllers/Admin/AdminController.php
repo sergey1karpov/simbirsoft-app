@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Ad;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CreateNewUserMail;
+use Illuminate\Support\Facades\Hash;
+use App\Notifications\WelcomeNewUserPassword;
+use Illuminate\Auth\Passwords\PasswordBroker;
 
 class AdminController extends Controller
 {
@@ -39,10 +44,11 @@ class AdminController extends Controller
 
 	public function createUser(Request $request, $id)
 	{
+		$chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 		$validated = $request->validate([
-	        'password' => 'required',
-	        'password_confirmation' => 'required|same:password',
+	        'name' => 'required',
+
 	    ]);
 
 		$admin = User::find($id);
@@ -55,8 +61,14 @@ class AdminController extends Controller
 			$newUser->email = $request->email;
 			$newUser->role = $request->role;
 			$newUser->status = $request->status;
-			$newUser->password = md5($request->password);
+			$newUser->password = Hash::make(substr(str_shuffle($chars), 0, 25));
+			$token = app(PasswordBroker::class)->createToken($newUser);
+			$newUser->remember_token = $token;
 			$newUser->save();
+
+			//Notification for user
+			$newUser->notify(new WelcomeNewUserPassword($token));
+
 
 			return redirect()->back()->with('status', 'User creted');
 		}
@@ -100,11 +112,6 @@ class AdminController extends Controller
 				return redirect()->back()->with('status', 'make moder');
 			}
 		}
-	}
-
-	public function deleteUserAd()
-	{
-
 	}
 
 	
