@@ -2,18 +2,26 @@
 
 @section('content')
 <div class="container">
+
     @if (session('status'))
         <div class="alert alert-success" role="alert">
             {{ session('status') }}
         </div>
-    @endif  
+    @endif 
+
     <div class="row justify-content-center">
         <div class="col-12">
             <div>
-                <h5 class="display-4">All users</h5>
+                <a href="{{route('getAllCities', ['id' => Auth::user()->id])}}">
+                    <button class="btn btn-primary btn-lg btn-block mb-2">CRUD Cities</button>
+                </a>
+                <a href="{{route('getAllCats', ['id' => Auth::user()->id])}}">
+                    <button class="btn btn-primary btn-lg btn-block mb-2">CRUD Categories</button>
+                </a>
                 <a href="{{route('showCreateUserForm', ['id' => Auth::user()->id])}}">
                     <button class="btn btn-primary btn-lg btn-block mb-2">Create new user</button>
                 </a>
+                <h5 class="display-4">All users</h5>
                 <ul class="list-group">
                     @foreach($allUsers as $allUser)
                         <li class="list-group-item">
@@ -88,6 +96,7 @@
             </div>
         </div>
     </div>
+    {{$allUsers->links()}}
 </div>
 @endsection
 

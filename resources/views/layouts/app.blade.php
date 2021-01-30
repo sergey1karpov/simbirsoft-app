@@ -41,7 +41,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <a href="{{ route('cities') }}">Cities</a>
+                    </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <div class="input-group">
+                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+    aria-describedby="search-addon" />
+                            <button type="button" class="btn btn-outline-primary">search</button>
+                        </div>    
                     </ul>
 
                     <!-- Right Side Of Navbar -->

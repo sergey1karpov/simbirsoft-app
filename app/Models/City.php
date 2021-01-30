@@ -11,6 +11,8 @@ class City extends Model
 
     protected $table = "cities";
 
+    protected $fillable = ['name', 'slug'];
+
     public function ads() {
     	return $this->hasMany(Ad::class);
     }

@@ -67,17 +67,9 @@ class ModeratorController extends Controller
 		}
 	}
 
-	public function generateUrl($url)
+	public function generateUrl()
 	{
-		$aaa = [];
-		$cats = Category::find($url)->ancestorsAndSelf;
-		$categories = $cats->reverse();
-		foreach($categories as $aa) {
-			$aaa[] = $aa->slug;
-		}
-		$bbb = implode(',', $aaa);
-		$x = str_replace(',', '-', $bbb);
-		return $x.'-product-'.getrandmax();
+		return '-'.mt_rand(1000000000, 9999999999);
 	}
 
 	public function makeActiveAd(Request $request, $id, $ad)
@@ -96,7 +88,7 @@ class ModeratorController extends Controller
 				$moderatingAd->moderation_date = Carbon::now();		
 				$moderatingAd->save();
 
-				$ad->slug = $this->generateUrl($ad->category_id);
+				$ad->slug = $ad->slug.$this->generateUrl();
 				$ad->status = Ad::ACTIVE;
 				$ad->update();
 

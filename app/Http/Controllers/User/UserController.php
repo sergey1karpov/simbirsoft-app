@@ -44,7 +44,7 @@ class UserController extends Controller
 		$user = User::findOrFail($id);
 		$cities = City::all();
 
-		$categories = Category::isLeaf()->get();
+		$categories = Category::all();
 
 		return view('user.show_ad_form', compact('user', 'cities', 'categories'));
 	}
@@ -80,7 +80,7 @@ class UserController extends Controller
 
 		if($user) {
 			$draftAd = Ad::findOrFail($ad);
-			$categories = Category::find($draftAd->category_id)->ancestorsAndSelf;
+			$categories = Category::all();
 			$whyFalse = $draftAd->moderation()->where('ad_id', $ad)->latest()->first();
 			return view('user.draftAd', compact('user', 'draftAd', 'whyFalse', 'categories'));
 		}
@@ -94,7 +94,7 @@ class UserController extends Controller
 			if($ad) {
 				$city = $draftAd->city()->where('id', $draftAd->city_id)->get();
 				$cities = City::all();
-				$categories = Category::isLeaf()->get();
+				$categories = Category::all();
 				return view('user.edit_draft_ad_form', compact('user', 'draftAd', 'cities', 'city', 'categories'));
 			}
 		}

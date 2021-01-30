@@ -24,7 +24,7 @@ class NewAdRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:10|max:255|',
+            'title' => 'required|min:5|max:255|',
             'description' => 'required|min:10|max:500|',
             'photo' => 'dimensions:min_width=300,min_height=300|file|max:512|mimes:jpg,jpeg,png',
             'photos.*' => 'dimensions:min_width=300,min_height=300|file|max:512|mimes:jpg,jpeg,png',

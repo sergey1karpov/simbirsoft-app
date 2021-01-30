@@ -34,17 +34,17 @@
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
-                        <select class="form-control" id="category" name="category">
+                        <select class="form-control" id="category" name="category_slug">
                             @foreach($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->slug}}">{{$category->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="city">City</label>
-                        <select class="form-control" id="city" name="city">
+                        <select class="form-control" id="city" name="city_slug">
                             @foreach($cities as $city)
-                                <option value="{{$city->id}}">{{$city->name}}</option>
+                                <option value="{{$city->slug}}">{{$city->name}}</option>
                             @endforeach
                         </select>
                     </div>

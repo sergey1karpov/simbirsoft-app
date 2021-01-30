@@ -12,12 +12,16 @@ class Category extends Model
 
     protected $table = "categories";
 
+    protected $fillable = ['name', 'slug', 'description'];
+
+    // protected $primaryKey = 'slug';
+
     public function ads() {
-    	return $this->hasMany(Ad::class);
+    	return $this->belongsTo(Ad::class);
     }
 
-    public function getParentKeyName()
-    {
-        return 'parent_id';
-    }
+    // public function getParentKeyName()
+    // {
+    //     return 'parent_id';
+    // }
 }

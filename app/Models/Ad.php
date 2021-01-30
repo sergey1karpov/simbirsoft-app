@@ -9,11 +9,13 @@ use Illuminate\Http\Request;
 use App\Http\Requests\NewAdRequest;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Exceptions\AdPhotosException;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class Ad extends Model
 {
     use HasFactory;
     use SoftDeletes;
+    use Sluggable;
 
     /**
      *Ad status
@@ -26,7 +28,7 @@ class Ad extends Model
 
     protected $table = 'ads';
 
-    protected $fillable = ['user_id', 'city_id', 'category_id', 'title', 'description', 'price', 'photo', 'photos'];
+    protected $fillable = ['user_id', 'city_slug', 'category_slug', 'title', 'description', 'price', 'photo', 'photos', 'slug'];
 
     protected $attributes = [
     	'view_counts' => 0,
@@ -37,8 +39,8 @@ class Ad extends Model
     	return $this->belongsTo(User::class);
     }
 
-    public function category() {
-    	return $this->belongsTo(Category::class);
+    public function categories() {
+    	return $this->hasMany(Category::class, 'slug', 'category_slug');
     }
 
     public function city() {
@@ -75,13 +77,22 @@ class Ad extends Model
         return serialize($urls);
     }
 
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
+
     public static function newUserAd($data) {
 
         $ad = Ad::create([
             'title' => $data['title'],
             'user_id' => auth()->user()->id, 
-            'category_id' => $data['category'],
-            'city_id' => $data['city'],
+            'category_slug' => $data['category_slug'],
+            'city_slug' => $data['city_slug'],
             'description' => $data['description'],
             'photo' => self::addMainPhoto($data['photo']),
             'photos' => self::addAdditionalPhoto($data['photos']),
@@ -94,8 +105,8 @@ class Ad extends Model
     public static function updateUserAd($data, $ad) {
         $ad->title = $data['title'];
         $ad->user_id = auth()->user()->id;
-        $ad->category_id = $data['category'];
-        $ad->city_id = $data['city'];
+        $ad->category_slug = $data['category_slug'];
+        $ad->city_slug = $data['city_slug'];
         $ad->description = $data['description'];
         $ad->photo = self::addMainPhoto($data['photo']);
         $ad->photos = self::addAdditionalPhoto($data['photos']);

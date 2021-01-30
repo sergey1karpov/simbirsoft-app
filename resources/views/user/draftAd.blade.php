@@ -9,14 +9,7 @@
 @endif 
 
 <div class="container">
-    <nav aria-label="breadcrumb">
-        <small class="text-muted">The ad will be located in the category:</small>
-        <ol class="breadcrumb">
-            @foreach($categories->reverse() as $category)
-                <li class="breadcrumb-item active" aria-current="page">{{$category->name}}</li>
-            @endforeach
-        </ol>
-    </nav>
+    
 
     @if($whyFalse)
         @if($whyFalse->decesion == 'False')
