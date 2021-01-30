@@ -89,13 +89,30 @@ services:
         networks:
             - postgres     
     #ElasticSearch
-    elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:5.4.3
+    es01:
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
+        container_name: es01
+        environment:
+            - cluster.initial_master_nodes=es01
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
         ports:
             - "9200:9200"
             - "9300:9300"
         networks:
-            - postgres                      
+            - postgres
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:6.2.4
+        container_name: kibana
+        ports:
+            - "5601:5601"
+        depends_on:
+            - es01
+        networks:
+            - postgres                    
 #Docker Networks
 networks:
     postgres:
