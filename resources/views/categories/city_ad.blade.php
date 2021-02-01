@@ -7,11 +7,9 @@
             <div class="col-12">
                 <ul class="list-group list-group-horizontal">
                     @foreach($cityAds as $cityAd)
-                        @foreach($cityAd->categories as $cat)
-                        <a href="{{ route('sCat', ['city' => $cityAd->city_slug, 'category' => $cityAd->category_slug]) }}">
-                            <li class="list-group-item">{{$cat->name}}</li>
+                        <a href="{{ route('sCat', ['region' => $cityAd->region_slug, 'city' => $cityAd->city_slug, 'category' => $cityAd->category_slug]) }}">
+                            <li class="list-group-item">{{$cityAd->category_slug}}</li>
                         </a>
-                        @endforeach
                     @endforeach
                 </ul>
             </div>
@@ -19,18 +17,18 @@
         
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
-            @foreach($cityAds as $cityAd)
+            @foreach($ads as $ad)
             <div class="col">
                 <div class="card shadow-sm">
                 
                 <a href="#" style="text-decoration: none; color:black;">
                 <div class="">
-                    <div style="height:200px; background-size: cover; background-image: url({{$cityAd->photo}})"></div>
-                    <a href="{{ route('sSlug', ['slug' => $cityAd->slug]) }}">
-                        <h5 class="ml-1 card-text">{{$cityAd->title}}</h5>
+                    <div style="height:200px; background-size: cover; background-image: url({{$ad->photo}})"></div>
+                    <a href="{{ route('sSlug', ['slug' => $ad->slug]) }}">
+                        <h5 class="ml-1 card-text">{{$ad->title}}</h5>
                     </a>
-                    <h6 class="ml-1 card-text">{{$cityAd->price}} rubles</h6>
-                    <small class="ml-1">publiched: {{$cityAd->created_at->diffForHumans()}}</small>
+                    <h6 class="ml-1 card-text">{{$ad->price}} rubles</h6>
+                    <small class="ml-1">publiched: {{$ad->created_at}}</small>
                 </div>
                 </a>    
 

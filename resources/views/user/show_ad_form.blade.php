@@ -33,16 +33,18 @@
                         <input maxlength="50" type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title">
                     </div>
                     <div class="form-group">
-                        <label for="category">Category</label>
+                        <label for="category">Choose category</label>
                         <select class="form-control" id="category" name="category_slug">
+                            <option selected></option>
                             @foreach($categories as $category)
                                 <option value="{{$category->slug}}">{{$category->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
-                        <label for="city">City</label>
+                        <label for="city">Choose city</label>
                         <select class="form-control" id="city" name="city_slug">
+                            <option selected></option>
                             @foreach($cities as $city)
                                 <option value="{{$city->slug}}">{{$city->name}}</option>
                             @endforeach

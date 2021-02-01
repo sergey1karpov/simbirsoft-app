@@ -29,6 +29,8 @@ class NewAdRequest extends FormRequest
             'photo' => 'dimensions:min_width=300,min_height=300|file|max:512|mimes:jpg,jpeg,png',
             'photos.*' => 'dimensions:min_width=300,min_height=300|file|max:512|mimes:jpg,jpeg,png',
             'price' => 'required|integer',
+            'category_slug' => 'required',
+            'city_slug' => 'required',
         ];
     }
 }

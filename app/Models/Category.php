@@ -20,6 +20,7 @@ class Category extends Model
     	return $this->belongsTo(Ad::class);
     }
 
+
     // public function getParentKeyName()
     // {
     //     return 'parent_id';

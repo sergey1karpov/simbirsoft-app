@@ -33,6 +33,7 @@
             {{ session('status') }}
         </div>
     @endif  
+    
 	<div class="row justify-content-center">
 		<div class="col-10">
 			<form class="mb-5" action="{{ route('addCat', ['id' => Auth::user()->id]) }}" method="POST">

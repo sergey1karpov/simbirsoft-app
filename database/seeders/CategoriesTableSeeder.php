@@ -15,16 +15,12 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert([
-            ['name' => 'Select a category', 'slug' => null],
+            // ['name' => 'Select a category', 'slug' => null],
         	['name' => 'Computers', 'slug' => 'computer-&-office'],
         	['name' => 'Cars and parts','slug' => 'cars-and-parts'],
         	['name' => 'Smartphones & Radio & Gps', 'slug' => 'smartphones-radio-gps'],
         	['name' => 'Games & Entertainment', 'slug' => 'games-&-entertainment'],
         	['name' => 'Photo & Video', 'slug' => 'photo-&-video'],
-        	['name' => 'Peoples', 'slug' => 'peoples'],
-        	['name' => 'Work',  'slug' => 'work'],
-        	['name' => 'Animals', 'slug' => 'animals'],
-        	['name' => 'Bussines', 'slug' => 'bussines'],
         ]);
     }
 }

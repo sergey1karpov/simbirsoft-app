@@ -14,6 +14,7 @@ use App\Notifications\WelcomeNewUserPassword;
 use Illuminate\Auth\Passwords\PasswordBroker;
 use App\Models\Category;
 use App\Models\City;
+use App\Models\Region;
 
 class AdminController extends Controller
 {
@@ -171,29 +172,73 @@ class AdminController extends Controller
 		}
 	}
 
-	public function getAllCities($id)
+	public function regionsAndCities($id)
 	{
 		$admin = User::find($id);
 		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
+			$regions = Region::all();
 			$cities = City::all();
-			return view('admin.all_cities', compact('cities'));
+			return view('admin.all_regions', compact('regions', 'cities'));
 		} else {
 			abort(404);
 		}
 	}
 
-	public function addCity(Request $request, $id)
+	public function addRegion(Request $request, $id)
 	{
 		$admin = User::find($id);
 		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
-			City::create([
-				'name' => $request->name,
-				'slug' => $request->slug,
-			]);
+			$region = new Region();
+			$region->name = $request->region_name;
+			$region->slug = $request->region_slug;
+			$region->save();
+
+			return redirect()->back()->with('status', 'Region added');
+		} else {
+			abort(404);
+		}
+	}
+
+	public function updateRegion(Request $request, $id, $region)
+	{
+		$admin = User::find($id);
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
+			$reg = Region::findOrFail($region);
+			$reg->name = $request->upd_region_name;
+			$reg->slug = $request->upd_region_slug;
+			$reg->update();
+			return redirect()->back()->with('status', 'region update');
+		} else {
+			return abort(404);
+		}
+	}
+
+	public function deleteRegion($id, $region) 
+	{
+		$admin = User::find($id);
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
+			$reg = Region::findOrfail($region);
+			$reg->delete();
+			return redirect()->back()->with('status', 'region deleted');
+		} else {
+			abort(404);
+		}
+	}
+
+	public function addCity(Request $request, $id) 
+	{
+		$admin = User::find($id);
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
+			$city = new City();
+			$city->name = $request->city_name;
+			$city->slug = $request->city_slug;
+			$city->region_id = $request->region_id;
+			$city->region_slug = $request->region_slug;
+			$city->save();
 
 			return redirect()->back()->with('status', 'City added');
 		} else {
-			abort(404);
+			return abort(404);
 		}
 	}
 
@@ -201,29 +246,67 @@ class AdminController extends Controller
 	{
 		$admin = User::find($id);
 		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
-			$cittty = City::findOrFail($city);
-			$cittty->name = $request->name;
-			$cittty->slug = $request->slug;
-			$cittty->update();
-
+			$city = City::findOrFail($city);
+			$city->name = $request->up_city_name;
+			$city->slug = $request->up_city_slug;
+			$city->region_id = $request->up_region_id;
+			$city->region_slug = $request->up_region_slug;
+			$city->update();
 			return redirect()->back()->with('status', 'City updated');
 		} else {
 			abort(404);
 		}
-
 	}
 
-	public function delCity($id, $city)
+	public function deleteCity($id, $city)
 	{
 		$admin = User::find($id);
 		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
-			$del = City::findOrFail($city);
-			$del->delete();
+			$delCity = City::findOrFail($city);
+			$delCity->delete();
 			return redirect()->back()->with('status', 'City deleted');
 		} else {
-			abort(404);
+			return abort(404);
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	
 }

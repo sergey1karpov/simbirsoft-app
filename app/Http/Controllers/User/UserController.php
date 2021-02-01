@@ -44,7 +44,7 @@ class UserController extends Controller
 		$user = User::findOrFail($id);
 		$cities = City::all();
 
-		$categories = Category::all();
+		$categories = Category::isLeaf()->get();
 
 		return view('user.show_ad_form', compact('user', 'cities', 'categories'));
 	}

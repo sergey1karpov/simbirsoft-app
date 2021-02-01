@@ -41,7 +41,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <a href="{{ route('cities') }}">Cities</a>
+                        <a href="{{ route('regions') }}">Regions</a>
                     </ul>
                     <ul class="navbar-nav mr-auto">
                         <div class="input-group">
@@ -110,6 +110,15 @@
                 </div>
             </div>
         </nav>
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                @foreach($categories as $cat)
+                    <a href="{{ route('allAdInCategory', ['slug' => $cat->slug]) }}">
+                        <h6>{{$cat->name}}</h6>
+                    </a>
+                @endforeach
+            </div>
+        </nav>    
         @if(session('error'))
             <div class="alert alert-danger ml-5 mr-5 mt-5">
                 {{session('error')}}

@@ -27,21 +27,21 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 | test routes for categories(3ree cats tree)
 |--------------------------------------------------------------------------
 */
+Route::get('regions', [App\Http\Controllers\IndexController::class, 'regions'])->name('regions');
 
 //All cities
-Route::get('cities', [App\Http\Controllers\IndexController::class, 'cities'])->name('cities');
+Route::get('{region}/cities', [App\Http\Controllers\IndexController::class, 'cities'])->name('cities');
 
 //All ads in city
-Route::get('cities/{city}', [App\Http\Controllers\IndexController::class, 'sCity'])->name('sCity');
+Route::get('{region}/{city}/ads', [App\Http\Controllers\IndexController::class, 'sCity'])->name('sCity');
 
 //All ads in category in city and subCats
-Route::get('cities/{city}/{category}', [App\Http\Controllers\IndexController::class, 'sCat'])->name('sCat');
-// Route::get('test/{city}/{category}/{subCatOne?}', [App\Http\Controllers\IndexController::class, 'subCatOne'])->name('subCatOne');
-// Route::get('test/{city}/{category}/{subCatOne?}/{subCatTwo?}', [App\Http\Controllers\IndexController::class, 'subCatTwo'])->name('subCatTwo');
+Route::get('{region}/{city}/{category}/ads', [App\Http\Controllers\IndexController::class, 'sCat'])->name('sCat');
 
 //Detail product
-// Route::get('test/{city}/{category}/{slug}', [App\Http\Controllers\IndexController::class, 'sSlug'])->name('sSlug');
 Route::get('cat/detail/{slug}', [App\Http\Controllers\IndexController::class, 'sSlug'])->name('sSlug');
+
+Route::get('categories/{slug?}', [App\Http\Controllers\IndexController::class, 'allAdInCategory'])->name('allAdInCategory');
 
 /*
 |--------------------------------------------------------------------------
@@ -75,11 +75,18 @@ Route::prefix('admin')->group(function() {
     Route::patch('/{id}/categories/{cat}/update', [App\Http\Controllers\Admin\AdminController::class, 'updateCat'])->name('updateCat');
     Route::delete('/{id}/categories/{cat}/delete', [App\Http\Controllers\Admin\AdminController::class, 'delCat'])->name('delCat');
 
-    //CRUD Cities
-    Route::get('/{id}/cities', [App\Http\Controllers\Admin\AdminController::class, 'getAllCities'])->name('getAllCities');
-    Route::post('/{id}/cities', [App\Http\Controllers\Admin\AdminController::class, 'addCity'])->name('addCity');
-    Route::patch('/{id}/cities/{city}/update', [App\Http\Controllers\Admin\AdminController::class, 'updateCity'])->name('updateCity');
-    Route::delete('/{id}/cities/{city}/delete', [App\Http\Controllers\Admin\AdminController::class, 'delCity'])->name('delCity');
+    //CRUD Regions
+    Route::get('/{id}/regions-and-cities', [App\Http\Controllers\Admin\AdminController::class, 'regionsAndCities'])->name('regionsAndCities');
+
+    Route::post('/{id}/regions-and-cities/adregion', [App\Http\Controllers\Admin\AdminController::class, 'addRegion'])->name('addRegion');
+    Route::post('/{id}/regions-and-cities/adcity', [App\Http\Controllers\Admin\AdminController::class, 'addCity'])->name('addCity');
+
+    Route::patch('/{id}/regions-and-cities/region/{region}/up-region', [App\Http\Controllers\Admin\AdminController::class, 'updateRegion'])->name('updateRegion');
+    Route::patch('/{id}/regions-and-cities/city/{city}/up-city', [App\Http\Controllers\Admin\AdminController::class, 'updateCity'])->name('updateCity');
+
+    Route::delete('/{id}/regions-and-cities/region/{region}/del-region', [App\Http\Controllers\Admin\AdminController::class, 'deleteRegion'])->name('deleteRegion');
+    Route::delete('/{id}/regions-and-cities/city/{city}/del-region', [App\Http\Controllers\Admin\AdminController::class, 'deleteCity'])->name('deleteCity');
+
 });
 
 /*

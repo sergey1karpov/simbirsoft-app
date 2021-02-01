@@ -18,6 +18,7 @@ class CreateCitiesTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('region_id')->nullable();
             $table->string('slug');
+            $table->string('region_slug');
             $table->timestamps();
         });
     }

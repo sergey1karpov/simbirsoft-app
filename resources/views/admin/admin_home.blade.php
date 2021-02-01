@@ -12,8 +12,8 @@
     <div class="row justify-content-center">
         <div class="col-12">
             <div>
-                <a href="{{route('getAllCities', ['id' => Auth::user()->id])}}">
-                    <button class="btn btn-primary btn-lg btn-block mb-2">CRUD Cities</button>
+                <a href="{{route('regionsAndCities', ['id' => Auth::user()->id])}}">
+                    <button class="btn btn-primary btn-lg btn-block mb-2">CRUD Regions/Cities</button>
                 </a>
                 <a href="{{route('getAllCats', ['id' => Auth::user()->id])}}">
                     <button class="btn btn-primary btn-lg btn-block mb-2">CRUD Categories</button>
