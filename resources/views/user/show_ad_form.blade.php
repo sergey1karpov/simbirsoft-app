@@ -32,6 +32,8 @@
                         <label for="title">Title</label>
                         <input maxlength="50" type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title">
                     </div>
+
+
                     <div class="form-group">
                         <label for="category">Choose category</label>
                         <select class="form-control" id="category" name="category_slug">
@@ -41,6 +43,17 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="category">Choose subCats</label>
+                        <select class="form-control" id="category" name="category_subslug">
+                            <option selected></option>
+                            @foreach($subCats as $subCat)
+                                <option value="{{$subCat->slug}}">{{$subCat->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
                     <div class="form-group">
                         <label for="city">Choose city</label>
                         <select class="form-control" id="city" name="city_slug">

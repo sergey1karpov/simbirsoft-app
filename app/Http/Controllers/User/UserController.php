@@ -44,9 +44,12 @@ class UserController extends Controller
 		$user = User::findOrFail($id);
 		$cities = City::all();
 
-		$categories = Category::isLeaf()->get();
+		$data = Category::get();
 
-		return view('user.show_ad_form', compact('user', 'cities', 'categories'));
+		$categories = $data->whereNull('parent_slug')->all();
+		$subCats = $data->whereNotNull('parent_slug')->all();
+
+		return view('user.show_ad_form', compact('user', 'cities', 'categories', 'subCats'));
 	}
 
 	/**

@@ -93,17 +93,33 @@ class IndexController extends Controller
 
     public function allAdInCategory($slug = null)
     {
-        // $ads = DB::table('ads')
-        //     ->join('categories', 'categories.slug', 'ads.category_slug')
-        //     ->where('categories.slug', $slug)
-        //     ->where('ads.status', Ad::ACTIVE)
-        //     ->get(); 
         $ads = DB::table('ads')
             ->where('category_slug', $slug)   
             ->where('ads.status', Ad::ACTIVE)
             ->get(); 
-         
-        return view('categories.cat_ads', compact('ads'));    
+        $subAds = DB::table('ads')
+            ->where('category_subslug', $slug)   
+            ->where('ads.status', Ad::ACTIVE)
+            ->get();       
+
+        $subCats = DB::table('categories')
+            ->where('categories.parent_slug', $slug)
+            ->get();    
+      
+        return view('categories.cat_ads', compact('ads', 'subCats', 'subAds'));    
+    }
+
+    public function allAdInSubCategory($slug = null, $subSlug)
+    {
+        $ads = DB::table('ads')
+            ->where('category_slug', $slug)  
+            ->where('category_subslug', $subSlug)  
+            ->where('ads.status', Ad::ACTIVE)
+            ->get(); 
+        $subCats = DB::table('categories')
+            ->where('categories.parent_slug', $slug)
+            ->get();     
+        return view('categories.subcat_ads', compact('ads', 'subCats'));    
     }
 
     /**

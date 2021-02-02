@@ -26,7 +26,7 @@ class ViewServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function($view) {
-            $view->with(['categories' => Category::all()]);
+            $view->with(['categories' => Category::where('parent_slug', null)->get()]);
         });
     }
 }

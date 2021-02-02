@@ -28,7 +28,7 @@ class Ad extends Model
 
     protected $table = 'ads';
 
-    protected $fillable = ['user_id', 'city_slug', 'category_slug', 'title', 'description', 'price', 'photo', 'photos', 'slug'];
+    protected $fillable = ['user_id', 'city_slug', 'category_slug', 'title', 'description', 'price', 'photo', 'photos', 'slug', 'category_subslug'];
 
     protected $attributes = [
     	'view_counts' => 0,
@@ -92,6 +92,7 @@ class Ad extends Model
             'title' => $data['title'],
             'user_id' => auth()->user()->id, 
             'category_slug' => $data['category_slug'],
+            'category_subslug' => $data['category_subslug'],
             'city_slug' => $data['city_slug'],
             'description' => $data['description'],
             'photo' => self::addMainPhoto($data['photo']),

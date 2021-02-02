@@ -43,6 +43,8 @@ Route::get('cat/detail/{slug}', [App\Http\Controllers\IndexController::class, 's
 
 Route::get('categories/{slug?}', [App\Http\Controllers\IndexController::class, 'allAdInCategory'])->name('allAdInCategory');
 
+Route::get('categories/{slug?}/{subSlug}', [App\Http\Controllers\IndexController::class, 'allAdInSubCategory'])->name('allAdInSubCategory');
+
 /*
 |--------------------------------------------------------------------------
 | Confirm email route

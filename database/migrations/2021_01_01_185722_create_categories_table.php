@@ -20,6 +20,7 @@ class CreateCategoriesTable extends Migration
             $table->string('slug')->unique()->nullable();
             $table->string('description')->nullable();
             $table->string('sorty')->nullable();
+            $table->string('parent_slug')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
         });

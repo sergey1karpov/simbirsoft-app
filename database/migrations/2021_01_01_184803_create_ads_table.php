@@ -18,6 +18,7 @@ class CreateAdsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('city_slug');
             $table->string('category_slug');
+            $table->string('category_subslug');
             $table->string('title');
             $table->string('slug')->nullable();
             $table->text('description');
