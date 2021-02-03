@@ -37,19 +37,69 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
+                <!-- -->
+                <!-- -->
+                <!-- -->
+                <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <h5 class="ml-2 mt-2">Search by all parameters</h5>
+                            <form action="{{route('search')}}" method="GET" class="m-2">@csrf
+                                <div class="row">
+                                    <div class="col-5">
+                                        <div class="form-group">  
+                                            <label>Choose a city</label> 
+                                            <select class="selectpicker" name="sCity">
+                                                <option></option>
+                                                    @foreach($cities as $city)
+                                                        <option value="{{$city->slug}}">{{$city->name}}</option>
+                                                    @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-7">
+                                        <div class="form-group"> 
+                                            <label>Choose a category</label>   
+                                            <select class="selectpicker" name="sCat">
+                                                <option></option>
+                                                    @foreach($categories as $cat)
+                                                        <option value="{{$cat->slug}}">{{$cat->name}}</option>
+                                                    @endforeach
+                                            </select>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group"> 
+                                        <label>Price from</label>   
+                                            <input type="search" id="form1" class="form-control" name="ot" />
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group"> 
+                                        <label>Price to</label>   
+                                            <input type="search" id="form1" class="form-control" name="do" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary btn-sm ">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- -->
+                <!-- -->
+                <!-- -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        <a href="{{ route('regions') }}">Regions</a>
-                    </ul>
-                    <ul class="navbar-nav mr-auto">
-                        <div class="input-group">
-                            <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-    aria-describedby="search-addon" />
-                            <button type="button" class="btn btn-outline-primary">search</button>
-                        </div>    
-                    </ul>
+                    
+                    
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -117,6 +167,18 @@
                         <h6>{{$cat->name}}</h6>
                     </a>
                 @endforeach
+
+                <a href="{{ route('regions') }}"><h6>Regions</h6></a>
+                    
+            </div>
+        </nav>  
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+            <div class="container">
+                <div class="input-group">
+                    <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#searchModal">
+                        Search by all parameters
+                    </button>
+                </div>
             </div>
         </nav>    
         @if(session('error'))

@@ -5,6 +5,8 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use App\Models\Category;
+use App\Models\Region;
+use App\Models\City;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,8 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer('*', function($view) {
             $view->with(['categories' => Category::where('parent_slug', null)->get()]);
+            $view->with(['regions' => Region::all()]);
+            $view->with(['cities' => City::all()]);
         });
     }
 }
