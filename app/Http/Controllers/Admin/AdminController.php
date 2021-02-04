@@ -120,7 +120,7 @@ class AdminController extends Controller
 	{
 		$admin = User::find($id);
 		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
-			$cats = Category::all();
+			$cats = Category::where('parent_slug', null)->get();
 			return view('admin.all_cat', compact('cats'));
 		} else {
 			abort(404);
@@ -169,6 +169,56 @@ class AdminController extends Controller
 			return redirect()->back()->with('status', 'Category updated');
 		} else {
 			abort(404);
+		}
+	}
+
+	public function getSubCats($id, $category)
+	{
+		$admin = User::find($id);
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
+			$parCat = Category::where('slug', $category)->first();
+			$subCats = Category::where('parent_slug', $category)->get();
+			return view('admin.sub_cats', compact('subCats', 'parCat'));
+		}
+	}
+
+	public function addSubCats(Request $request, $id, $category)
+	{
+		$admin = User::find($id);
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
+			$subCat = new Category();
+			$subCat->name = $request->sub_name;
+			$subCat->slug = $request->sub_slug;
+			$subCat->description = $request->sub_description;
+			$subCat->parent_slug = $category;
+			$subCat->save();
+
+			return redirect()->back()->with('status', 'Subcat added');
+		}
+	}
+
+	public function updateSubCats(Request $request, $id, $category, $subcate)
+	{
+		$admin = User::find($id);
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
+			$subCat = Category::findOrFail($subcate);
+			$subCat->name = $request->up_sub_name;
+			$subCat->slug = $request->up_sub_slug;
+			$subCat->description = $request->up_sub_description;
+			$subCat->update();
+
+			return redirect()->back()->with('status', 'Subcat updated');
+		}
+	}
+
+	public function deleteSubCats($id, $category, $subcate)
+	{
+		$admin = User::find($id);
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
+			$subCat = Category::findOrFail($subcate);
+			$subCat->delete();
+
+			return redirect()->back()->with('status', 'Subcat deleted');
 		}
 	}
 

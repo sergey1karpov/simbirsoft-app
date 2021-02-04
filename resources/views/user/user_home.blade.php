@@ -85,7 +85,7 @@
                 <div class="col-4 mt-2">
                     <div class="card" 
                     @if($moderationAd->status == 'On Moderation')style="border: 4px solid yellow" @endif
-                    @if($moderationAd->status == 'False')style="border: 4px solid red" @endif    
+                    @if($moderationAd->status == 'Rejected')style="border: 4px solid red" @endif    
                     >
                         <div style="height:200px; background-size: cover; background-image: url({{$moderationAd->photo}})"></div>
                         <div class="card-body">

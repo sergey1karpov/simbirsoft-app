@@ -77,6 +77,11 @@ Route::prefix('admin')->group(function() {
     Route::patch('/{id}/categories/{cat}/update', [App\Http\Controllers\Admin\AdminController::class, 'updateCat'])->name('updateCat');
     Route::delete('/{id}/categories/{cat}/delete', [App\Http\Controllers\Admin\AdminController::class, 'delCat'])->name('delCat');
 
+    Route::get('/{id}/categories/{category}/subcats', [App\Http\Controllers\Admin\AdminController::class, 'getSubCats'])->name('getSubCats');
+    Route::post('/{id}/categories/{category}/subcats', [App\Http\Controllers\Admin\AdminController::class, 'addSubCats'])->name('addSubCats');
+    Route::patch('/{id}/categories/{category}/subcats/{subcate}/update', [App\Http\Controllers\Admin\AdminController::class, 'updateSubCats'])->name('updateSubCats');
+    Route::delete('/{id}/categories/{category}/subcats/{subcate}/delete', [App\Http\Controllers\Admin\AdminController::class, 'deleteSubCats'])->name('deleteSubCats');
+
     //CRUD Regions
     Route::get('/{id}/regions-and-cities', [App\Http\Controllers\Admin\AdminController::class, 'regionsAndCities'])->name('regionsAndCities');
 

@@ -9,6 +9,9 @@ use App\Models\Ad;
 use App\Models\Moderation;
 use Illuminate\Support\Carbon;
 use App\Models\Category;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ErrorAdNotification;
+use App\Jobs\ErrorAdJob;
 
 class ModeratorController extends Controller
 {
@@ -49,6 +52,7 @@ class ModeratorController extends Controller
 
 		if($moderator) {
 			$ad = Ad::findOrFail($ad);
+			$user = User::find($ad->user_id);
 
 			if($ad) {
 				$moderatingAd = new Moderation();
@@ -61,6 +65,10 @@ class ModeratorController extends Controller
 
 				$ad->status = Ad::REJECTED;
 				$ad->update();
+				
+				//If ad is shit, we sending to notify
+				// Notification::send($user, new ErrorAdNotification($user, $ad, $moderatingAd));
+				ErrorAdJob::dispatch($user, $ad, $moderatingAd);
 
 				return redirect()->back()->with('status', 'Your review id send to user');
 			}

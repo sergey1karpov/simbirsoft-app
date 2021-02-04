@@ -3,6 +3,17 @@
 @section('content')
 
 <div class="container">
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    	<div class="modal-dialog" role="document">
+    		<div class="modal-content">
+      			<form class="m-3" action="" method="">
+      				fff
+      			</form>
+    		</div>
+  		</div>
+    </div>
+
 	@foreach($cats as $cat)
 	<div class="modal fade" id="exampleModalCenter{{$cat->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 	  	<div class="modal-dialog modal-dialog-centered" role="document">
@@ -33,9 +44,10 @@
             {{ session('status') }}
         </div>
     @endif  
-    
 	<div class="row justify-content-center">
 		<div class="col-10">
+			<button type="button" class="btn btn-primary btn-lg btn-block mb-1" data-toggle="modal" data-target="#exampleModal">Add SubCategory</button>
+			<h4 class="display-4">Add parent category</h4>
 			<form class="mb-5" action="{{ route('addCat', ['id' => Auth::user()->id]) }}" method="POST">
 				@csrf
 				<div class="form-group">
@@ -61,7 +73,8 @@
     				<li class="list-group-item">
     					<div class="row">
     						<div class="col-8">
-    							{{$cat->name}}
+    							<a href="{{ route('getSubCats', ['id' => Auth::user()->id, 'category' => $cat->slug]) }}">{{$cat->name}}</a>
+    							
     						</div>
     						<div class="col-2 text-right">
     							<form>
