@@ -14,7 +14,8 @@ class SlugService
 {
 
     /**
-     * @var \Illuminate\Database\Eloquent\Model;
+     * @var \Illuminate\Database\Eloquent\Model
+     * @var \Cviebrock\EloquentSluggable\Sluggable
      */
     protected $model;
 
@@ -75,7 +76,7 @@ class SlugService
      *
      * @return null|string
      */
-    public function buildSlug(string $attribute, array $config, bool $force = null)
+    public function buildSlug(string $attribute, array $config, bool $force = null): ?string
     {
         $slug = $this->model->getAttribute($attribute);
 
@@ -162,10 +163,10 @@ class SlugService
         $maxLengthKeepWords = $config['maxLengthKeepWords'];
 
         if ($method === null) {
-            $slugEngine = $this->getSlugEngine($attribute);
+            $slugEngine = $this->getSlugEngine($attribute, $config);
             $slug = $slugEngine->slugify($source, $separator);
         } elseif (is_callable($method)) {
-            $slug = call_user_func($method, $source, $separator);
+            $slug = $method($source, $separator);
         } else {
             throw new \UnexpectedValueException('Sluggable "method" for ' . get_class($this->model) . ':' . $attribute . ' is not callable nor null.');
         }
@@ -190,19 +191,18 @@ class SlugService
      *
      * @param string $attribute
      *
+     * @param array $config
      * @return \Cocur\Slugify\Slugify
      */
-    protected function getSlugEngine(string $attribute): Slugify
+    protected function getSlugEngine(string $attribute, array $config): Slugify
     {
         static $slugEngines = [];
 
         $key = get_class($this->model) . '.' . $attribute;
 
         if (!array_key_exists($key, $slugEngines)) {
-            $engine = new Slugify();
-            if (method_exists($this->model, 'customizeSlugEngine')) {
-                $engine = $this->model->customizeSlugEngine($engine, $attribute);
-            }
+            $engine = new Slugify($config['slugEngineOptions']);
+            $engine = $this->model->customizeSlugEngine($engine, $attribute);
 
             $slugEngines[$key] = $engine;
         }
@@ -359,9 +359,7 @@ class SlugService
             ->findSimilarSlugs($attribute, $config, $slug);
 
         // use the model scope to find similar slugs
-        if (method_exists($this->model, 'scopeWithUniqueSlugConstraints')) {
-            $query->withUniqueSlugConstraints($this->model, $attribute, $config, $slug);
-        }
+        $query->withUniqueSlugConstraints($this->model, $attribute, $config, $slug);
 
         // include trashed models if required
         if ($includeTrashed && $this->usesSoftDeleting()) {
@@ -431,7 +429,7 @@ class SlugService
      *
      * @return $this
      */
-    public function setModel(Model $model)
+    public function setModel(Model $model): self
     {
         $this->model = $model;
 

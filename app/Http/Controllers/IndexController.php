@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class IndexController extends Controller
 {
     /**
-     * All active ads in index page
+     * Get all active ads in main page
      */
     public function index() 
     {
@@ -20,7 +20,7 @@ class IndexController extends Controller
     }
 
     /**
-     * All regions
+     * Get all regions
      */
     public function regions()
     {
@@ -29,22 +29,13 @@ class IndexController extends Controller
     }
 
     /**
-     * All cities in region and all ads in region
+     * Get all cities in the region and all ads in the region
      */
     public function cities($region)
     {
-        $cities = DB::table('regions')
-            ->join('cities', 'cities.region_slug', 'regions.slug')
-            ->where('cities.region_slug', $region)
-            ->get();
-        $ads = DB::table('regions')
-            ->join('cities', 'cities.region_slug', 'regions.slug')
-            ->join('ads', 'ads.city_slug', 'cities.slug')
-            ->where('cities.region_slug', $region)
-            ->where('ads.status', Ad::ACTIVE)
-            ->get();
-        $reg = Region::where('slug', $region)->first();
-
+        $cities = Category::getCities($region);  //get all cities in region  
+        $ads = Category::getCitiesAds($region);  //get all ads in region
+        $reg = Region::where('slug', $region)->first(); //get region
         return view('categories.cities', compact('cities', 'ads', 'reg'));
     }
 
@@ -53,18 +44,8 @@ class IndexController extends Controller
      */
     public function sCity($region, $city) 
     {
-        $cityAds = DB::table('ads')
-            ->join('cities', 'cities.slug', 'ads.city_slug')
-            ->join('regions', 'regions.slug', 'cities.region_slug')
-            ->where('regions.slug', $region)
-            ->where('cities.slug', $city)
-            ->where('ads.status', Ad::ACTIVE)
-            ->get(); 
-        $ads = DB::table('ads')
-            ->where('city_slug', $city) 
-            ->where('ads.status', Ad::ACTIVE)
-            ->get();        
-
+        $cityAds = Category::getCategoryInCity($region, $city); //get all cats in city
+        $ads = Category::getAdsInCity($city); //get all ads in city       
         return view('categories.city_ad', compact('cityAds', 'ads'));
     }
 
@@ -73,52 +54,24 @@ class IndexController extends Controller
      */
     public function sCat($region, $city, $category)
     {   
-        $cityAndCat = DB::table('ads')
-            ->join('categories', 'categories.slug', 'ads.category_slug')
-            ->join('cities', 'cities.slug', 'ads.city_slug')
-            ->join('regions', 'regions.slug', 'cities.region_slug')
-            ->where('regions.slug', $region)
-            ->where('cities.slug', $city)
-            ->where('categories.slug', $category)
-            ->where('ads.status', Ad::ACTIVE)
-            ->get(); 
-        $ads = DB::table('ads')
-            ->where('city_slug', $city) 
-            ->where('category_slug', $category)
-            ->where('ads.status', Ad::ACTIVE)
-            ->get();    
-
-        return view('categories.category_ad', compact('cityAndCat', 'ads'));
+        $ads = Category::getAdsInCategory($city, $category); //get all ads in the category and in the city 
+        return view('categories.category_ad', compact( 'ads'));
     }
 
+    /**
+     * Get all ads in category without city
+     */
     public function allAdInCategory($slug = null)
     {
-        $ads = DB::table('ads')
-            ->where('category_slug', $slug)   
-            ->where('ads.status', Ad::ACTIVE)
-            ->get(); 
-        $subAds = DB::table('ads')
-            ->where('category_subslug', $slug)   
-            ->where('ads.status', Ad::ACTIVE)
-            ->get();       
-
-        $subCats = DB::table('categories')
-            ->where('categories.parent_slug', $slug)
-            ->get();    
-      
-        return view('categories.cat_ads', compact('ads', 'subCats', 'subAds'));    
+        $ads = Category::getAllAdsInCategory($slug); //get all ads in category    
+        $subCats = Category::getSubCatsInCategory($slug);  //get subcats in parent cat  
+        return view('categories.cat_ads', compact('ads', 'subCats'));    
     }
 
     public function allAdInSubCategory($slug = null, $subSlug)
     {
-        $ads = DB::table('ads')
-            ->where('category_slug', $slug)  
-            ->where('category_subslug', $subSlug)  
-            ->where('ads.status', Ad::ACTIVE)
-            ->get(); 
-        $subCats = DB::table('categories')
-            ->where('categories.parent_slug', $slug)
-            ->get();     
+        $ads = Category::getAllAdInSubCategory($slug, $subSlug); //get all ads in subcategory
+        $subCats = Category::getAllSubCats($slug); //get other subcats in parent    
         return view('categories.subcat_ads', compact('ads', 'subCats'));    
     }
 

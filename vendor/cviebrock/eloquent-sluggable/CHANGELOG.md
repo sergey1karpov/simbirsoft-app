@@ -1,5 +1,23 @@
 # Change Log
 
+## 8.0.4 - 20-Jan-2021
+
+- bug fix for #543#issuecomment-763391948 (thanks @dluague)
+
+
+## 8.0.3 - 19-Jan-2021
+
+- add ability to slug models on Eloquent's `saved` event, rather than
+  `saving`
+  - this adds a few more SQL queries per save, but allows for the use of
+    the primary key field in the `source` configuration (see #539 and #448)
+  - default configuration remains the same, but might change in a future release
+- add `slugEngineOptions` configuration option (see #454, thanks @Adioz01)
+- move automated testing from travis-ci to Github actions (#534, thanks @cbl)
+- clean up some third-party tools and badges
+- clean up docblocks, return hints, and PHPUnit method calls
+
+
 ## 8.0.2 - 29-Nov-2020
 
 - support PHP 8.0 (#533, thanks @cbl)

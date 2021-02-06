@@ -19,6 +19,7 @@ use App\Models\Region;
 class AdminController extends Controller
 {
 	use RegistersUsers;
+
     /**
      * Return Admin home page
      */
@@ -38,7 +39,7 @@ class AdminController extends Controller
 	public function showCreateUserForm($id)
 	{
 		$admin = User::findOrFail($id);
-		if($admin) {
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
 			return view('admin.create_new_user', compact('admin'));
 		} else {
 			return abort(404);
@@ -56,7 +57,7 @@ class AdminController extends Controller
 
 		$admin = User::find($id);
 
-		if($admin) {
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
 			$newUser = new User();
 			$newUser->name = $request->name;
 			$newUser->surname = $request->surname;
@@ -79,7 +80,7 @@ class AdminController extends Controller
 	public function changeStatus($id, $userId)
 	{
 		$admin = User::findOrFail($id);
-		if($admin) {
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
 			$changeUserStatus = User::findOrFail($userId);
 			
 			if($changeUserStatus->status == User::ACTIVE) {
@@ -99,7 +100,7 @@ class AdminController extends Controller
 	public function changeRole($id, $userId)
 	{
 		$admin = User::findOrFail($id);
-		if($admin) {
+		if(auth()->user()->role == User::ADMIN && auth()->user()->id == $id) {
 			$changeUserRole = User::findOrFail($userId);
 			
 			if($changeUserRole->role == User::MODERATOR) {
@@ -319,44 +320,4 @@ class AdminController extends Controller
 			return abort(404);
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
 }

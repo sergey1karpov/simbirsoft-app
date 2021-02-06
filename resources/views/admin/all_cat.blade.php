@@ -46,7 +46,7 @@
     @endif  
 	<div class="row justify-content-center">
 		<div class="col-10">
-			<button type="button" class="btn btn-primary btn-lg btn-block mb-1" data-toggle="modal" data-target="#exampleModal">Add SubCategory</button>
+			
 			<h4 class="display-4">Add parent category</h4>
 			<form class="mb-5" action="{{ route('addCat', ['id' => Auth::user()->id]) }}" method="POST">
 				@csrf

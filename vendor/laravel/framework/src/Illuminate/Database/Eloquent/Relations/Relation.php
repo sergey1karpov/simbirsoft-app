@@ -49,7 +49,7 @@ abstract class Relation
     protected static $constraints = true;
 
     /**
-     * An array to map class names to their morph names in database.
+     * An array to map class names to their morph names in the database.
      *
      * @var array
      */
@@ -223,7 +223,7 @@ abstract class Relation
     /**
      * Get a relationship join table hash.
      *
-     * @param  bool $incrementJoinCount
+     * @param  bool  $incrementJoinCount
      * @return string
      */
     public function getRelationCountHash($incrementJoinCount = true)
