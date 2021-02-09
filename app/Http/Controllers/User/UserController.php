@@ -29,7 +29,7 @@ class UserController extends Controller
 			->get();
 		$deleted = $user->ads()->onlyTrashed()->get();	
 
-		if($user->role == User::USER && $user->id == $id) {
+		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
 			return view('user.user_home', compact('user', 'draftAds', 'moderationAds', 'activeAds', 'deleted'));
 		} else {
 			return abort('404');
@@ -49,7 +49,11 @@ class UserController extends Controller
 		$categories = $data->whereNull('parent_slug')->all();
 		$subCats = $data->whereNotNull('parent_slug')->all();
 
-		return view('user.show_ad_form', compact('user', 'cities', 'categories', 'subCats'));
+		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
+			return view('user.show_ad_form', compact('user', 'cities', 'categories', 'subCats'));
+		} else {
+			return abort(404);
+		}
 	}
 
 	/**
@@ -63,12 +67,17 @@ class UserController extends Controller
 	{
 		$user = User::findOrFail($id);
 
-		if($user->status == USER::NO_ACTIVE) {
-			return redirect()->back()->with('status', 'Your account is not activated. Please confirm your email');
+		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
+			if($user->status == USER::NO_ACTIVE) {
+				return redirect()->back()->with('status', 'Your account is not activated. Please confirm your email');
+			} else {
+				Ad::newUserAd($request->all());
+				return redirect()->route('user.home', ['id' => auth()->user()->id])->with('status', 'Your ad is draft');
+			}
 		} else {
-			Ad::newUserAd($request->all());
-			return redirect()->route('user.home', ['id' => auth()->user()->id])->with('status', 'Your ad is draft');
+			return abort(404);
 		}
+		
 	}
 
 	/**
@@ -81,18 +90,20 @@ class UserController extends Controller
 	{
 		$user = User::findOrFail($id);
 
-		if($user) {
+		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
 			$draftAd = Ad::findOrFail($ad);
 			$categories = Category::all();
 			$whyFalse = $draftAd->moderation()->where('ad_id', $ad)->latest()->first();
 			return view('user.draftAd', compact('user', 'draftAd', 'whyFalse', 'categories'));
+		} else {
+			return abort(404);
 		}
 	}
 
 	public function editDraftAd($id, $ad) 
 	{
 		$user = User::findOrFail($id);
-		if($user) {
+		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
 			$draftAd = Ad::findOrFail($ad);
 			if($ad) {
 				$city = $draftAd->city()->where('id', $draftAd->city_id)->get();
@@ -100,13 +111,15 @@ class UserController extends Controller
 				$categories = Category::all();
 				return view('user.edit_draft_ad_form', compact('user', 'draftAd', 'cities', 'city', 'categories'));
 			}
+		} else {
+			return abort(404);
 		}
 	}
 
 	public function updateDraftAd(NewAdRequest $request, $id, $ad) 
 	{
 		$user = User::findOrFail($id);
-		if($user) {
+		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
 
@@ -118,13 +131,15 @@ class UserController extends Controller
 
 				return redirect()->back()->with('status', 'Your ad is update');
 			}
+		} else {
+			return abort(404);
 		}
 	}
 
 	public function deleteDraftAd($id, $ad) 
 	{
 		$user = User::findOrFail($id);
-		if($user) {
+		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
 
@@ -135,20 +150,24 @@ class UserController extends Controller
 				$ad->delete();
 				return redirect()->route('user.home', ['id' => auth()->user()->id])->with('status', 'Draft ad is deleted');
 			}
+		} else {
+			return abort(404);
 		}
 	}
 
 	public function sendToModer($id, $ad)
 	{
 		$user = User::findOrFail($id);
-		if($user) {
+		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
 				$ad->status = Ad::ON_MODERATION;
 				$ad->update();
 
 				return redirect()->back()->with('status', 'Your ad send on moder');
-			}
+			} 
+		} else {
+			return abort(404);
 		}
 	} 
 

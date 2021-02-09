@@ -10,6 +10,7 @@ use App\Http\Requests\NewAdRequest;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Exceptions\AdPhotosException;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class Ad extends Model
 {
@@ -51,10 +52,29 @@ class Ad extends Model
     	return $this->hasMany(Moderation::class);
     }
 
+    public static function editPhoto($photo) {
+        $image = Image::make($photo);
+        $image->resize(1000, null, function ($constraint) {
+            $constraint->aspectRatio();
+        });
+        $image->save();
+    }
+
     public static function addMainPhoto($photo) 
     {
+        $data = getimagesize($photo);
+        $width = $data[0];
+        $height = $data[1];
+
+        if($width > 1500 || $height > 1500) {
+            self::editPhoto($photo);
+        }
+        
+        self::editPhoto($photo);
+
         $path = Storage::putFile('public/'.auth()->user()->id.'/ad', $photo);
         $url = Storage::url($path);
+
         return $url;
     }
 
@@ -64,6 +84,14 @@ class Ad extends Model
         $urls = [];
 
         foreach($myPhotos as $key => $photo) {
+            $data = getimagesize($photo);
+            $width = $data[0];
+            $height = $data[1];
+
+            if($width > 1500 || $height > 1500) {
+                self::editPhoto($photo);
+            }
+
             $photos[] = Storage::putFile('public/'.auth()->user()->id.'/ad', $photo);
         }
         foreach($photos as $photo) {

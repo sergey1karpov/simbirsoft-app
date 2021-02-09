@@ -22,7 +22,7 @@ class ModeratorController extends Controller
 	{
 		$moderator = User::findOrFail($id);
 		
-		if($moderator->role == User::MODERATOR && $moderator->id == $id) {
+		if(auth()->user()->role == User::MODERATOR && auth()->user()->id == $id) {
 			$ads = Ad::where('status', Ad::ON_MODERATION)->get();
 			return view('moderator.moderator_home', compact('moderator', 'ads'));
 		} else {
@@ -34,13 +34,15 @@ class ModeratorController extends Controller
 	{
 		$moderator = User::findOrFail($id);
 
-		if($moderator) {
+		if(auth()->user()->role == User::MODERATOR || auth()->user()->role == User::ADMIN) {
 			$ad = Ad::findOrFail($ad);
 			$userAd = $ad->user()->where('id', $ad->user_id)->first();
 			if($ad) {
 				return view('moderator.ad_on_moderation', compact('ad', 'userAd'));
 			}
-		}
+		} else {
+			return abort(404);
+		}	
 	}
 
 	/**
@@ -50,7 +52,7 @@ class ModeratorController extends Controller
 	{
 		$moderator = User::findOrFail($id);
 
-		if($moderator) {
+		if(auth()->user()->role == User::MODERATOR || auth()->user()->role == User::ADMIN) {
 			$ad = Ad::findOrFail($ad);
 			$user = User::find($ad->user_id);
 
@@ -84,7 +86,7 @@ class ModeratorController extends Controller
 	{
 		$moderator = User::findOrFail($id);
 
-		if($moderator) {
+		if(auth()->user()->role == User::MODERATOR || auth()->user()->role == User::ADMIN) {
 			$ad = Ad::findOrFail($ad);
 			if($ad) {
 

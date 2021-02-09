@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Elasticsearch\ClientBuilder;
 
 class SearchController extends Controller
 {
@@ -16,4 +17,17 @@ class SearchController extends Controller
     	
     	return view('search', compact('ads'));
     }
+
+    // public function esSearch() {
+    // 	$client = ClientBuilder::create()->setHosts(['172.20.0.1:9200'])->build();
+    	
+    //     $params = [
+    //         'index' => 'my_index',
+    //         'id' => 'test_id',
+    //         'body' => ['testField' => 'abc']
+    //     ];
+
+    //     $result = $client->index($params);
+    //     var_dump($result);
+    // }
 }

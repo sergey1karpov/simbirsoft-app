@@ -35,7 +35,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{$activeAd->title}}</h5>
                                 <h6 class="card-title">{{$activeAd->price}} rubles</h6>
-                                <a href="#" class="btn-sm btn btn-primary">show</a>
+                                <a href="{{ route('sSlug', ['slug' => $activeAd->slug]) }}" class="btn-sm btn btn-primary">show</a>
                             </div>
                         </div>
                     </div>

@@ -132,4 +132,5 @@ Route::prefix('user')->group(function() {
 });
 
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
+Route::get('/es', [App\Http\Controllers\SearchController::class, 'esSearch'])->name('esSearch');
 
