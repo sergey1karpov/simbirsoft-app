@@ -16,12 +16,12 @@
             <h2>Check your ad and send on moderation again</h2>
             <form action="{{route('sendToModer', ['id' => Auth::user()->id, 'ad' => $draftAd->id])}}" method="post">
                 @csrf @method('PATCH')
-                <button class="btn btn-primary">Send to moderation</button>
+                <button class="btn btn-primary">Send to moderation again</button>
             </form>
 
             <h2>You ad is rejected for reason:</h2>
             <div class="alelrt alert-danger">
-                <h6>{{$whyFalse->why}}</h6>
+                <h4 class="p-4">{{$whyFalse->why}} ({{$whyFalse->created_at}})</h4>
             </div>
         @endif
     @endif    

@@ -66,8 +66,9 @@
                 @if(count($moderationAds) == 0)
                     Nothing to moderation
                 @endif
-                @foreach($moderationAds as $ad)
-                    <div class="col-4 mt-2" style="padding: 0">
+                <div class="row">
+                    @foreach($moderationAds as $ad)
+                    <div class="col-4 m-2" style="padding: 0">
                         <div class="card">
                             <div style="height:200px; background-size: cover; background-image: url({{$ad->photo}})"></div>
                             <div class="card-body" style="padding: 0">
@@ -93,6 +94,7 @@
                         </div>
                     </div>
                 @endforeach  
+                </div>
             </div>
         </div>
     </div>

@@ -30,6 +30,17 @@ class CategoriesTableSeeder extends Seeder
             ['name' => 'Trucks','slug' => 'trucks', 'parent_slug' => 'cars-and-parts'],
             ['name' => 'Busses','slug' => 'busses', 'parent_slug' => 'cars-and-parts'],
             ['name' => 'Accessoires','slug' => 'accessoires', 'parent_slug' => 'cars-and-parts'],
+
+            ['name' => 'Iphone', 'slug' => 'iphone', 'parent_slug' => 'smartphones-radio-gps'],
+            ['name' => 'Samsung Galaxy', 'slug' => 'galaxy', 'parent_slug' => 'smartphones-radio-gps'],
+            ['name' => 'Siemens C65', 'slug' => 'siemens-c65', 'parent_slug' => 'smartphones-radio-gps'],
+
+            ['name' => 'Sony Playstation 5', 'slug' => 'sony-playstation-5', 'parent_slug' => 'games-&-entertainment'],
+            ['name' => 'XBOX Series X', 'slug' => 'xbox-series-x', 'parent_slug' => 'games-&-entertainment'],
+            ['name' => 'Nintendo', 'slug' => 'nintendo', 'parent_slug' => 'games-&-entertainment'],
+
+            ['name' => 'Nikon', 'slug' => 'nikon', 'parent_slug' => 'photo-&-video'],
+            ['name' => 'Canon', 'slug' => 'canon', 'parent_slug' => 'photo-&-video'],
         ]);
     }
 }
