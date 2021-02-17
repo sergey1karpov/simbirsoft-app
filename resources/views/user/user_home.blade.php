@@ -104,8 +104,10 @@
                     <div class="card" style="background-color:rgba(0,0,0,.3);">
                         <div style="height:200px; background-size: cover; background-image: url({{$del->photo}})"></div>
                         <div class="card-body">
-                            <h5 class="card-title">{{$del->title}}</h5>
-                            <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $del->id])}}" class="btn-sm btn btn-primary">show</a>
+                            <h5 class="card-title">Title: {{$del->title}}</h5>
+                            <h5 class="card-title">Price: {{$del->price}}</h5>
+                            <h5 class="card-title">Status: {{$del->status}}</h5>
+                            <!-- <a href="{{route('showAd', ['id' => Auth::user()->id, 'ad' => $del->id])}}" class="btn-sm btn btn-primary">show</a> -->
                         </div>
                     </div>
                 </div>

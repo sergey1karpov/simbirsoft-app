@@ -28,9 +28,11 @@
                         <input maxlength="50" type="text" class="form-control" id="title" aria-describedby="emailHelp" name="title" value="{{$draftAd->title}}">
                         <small>Current value: {{$draftAd->title}}</small>
                     </div>
+
                     <div class="form-group">
                         <label for="category">Category</label>
                         <select class="form-control" id="category" name="category_slug">
+                            <option selected></option>
                             @foreach($categories as $category)
                                 <option value="{{$category->slug}}">{{$category->name}}</option>
                             @endforeach
@@ -38,8 +40,19 @@
                         <small>Current value: {{$draftAd->category}}</small>
                     </div>
                     <div class="form-group">
+                        <label for="category">Choose subCats</label>
+                        <select class="form-control" id="category" name="category_subslug">
+                            <option selected></option>
+                            @foreach($subCats as $subCat)
+                                <option value="{{$subCat->slug}}">{{$subCat->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label for="city">City</label>
                         <select class="form-control" id="city" name="city_slug">
+                            <option selected></option>
                             @foreach($cities as $city)
                                 <option value="{{$city->slug}}">{{$city->name}}</option>
                             @endforeach

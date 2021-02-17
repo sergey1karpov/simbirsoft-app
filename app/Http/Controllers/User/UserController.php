@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\NewAdRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\Log;
 
 
 class UserController extends Controller
@@ -72,10 +73,11 @@ class UserController extends Controller
 				return redirect()->back()->with('status', 'Your account is not activated. Please confirm your email');
 			} else {
 				Ad::newUserAd($request->all());
+				Log::channel('single')->info($user->name. ' add new draft ad with data - "'. $request->title. '"');
 				return redirect()->route('user.home', ['id' => auth()->user()->id])->with('status', 'Your ad is draft');
 			}
 		} else {
-			return abort(404);
+			return abort(403, 'You do not have permission to create an ad');
 		}
 		
 	}
@@ -106,10 +108,11 @@ class UserController extends Controller
 		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
 			$draftAd = Ad::findOrFail($ad);
 			if($ad) {
-				$city = $draftAd->city()->where('id', $draftAd->city_id)->get();
 				$cities = City::all();
-				$categories = Category::all();
-				return view('user.edit_draft_ad_form', compact('user', 'draftAd', 'cities', 'city', 'categories'));
+				$data = Category::get();
+				$categories = $data->whereNull('parent_slug')->all();
+				$subCats = $data->whereNotNull('parent_slug')->all();
+				return view('user.edit_draft_ad_form', compact('user', 'draftAd', 'cities', 'categories', 'subCats'));
 			}
 		} else {
 			return abort(404);
@@ -120,19 +123,21 @@ class UserController extends Controller
 	{
 		$user = User::findOrFail($id);
 		if(auth()->user()->id == $id && auth()->user()->role == User::USER) {
+
 			$ad = Ad::findOrFail($ad);
-			if($ad) {
-
-				if($ad->status == Ad::ON_MODERATION || $ad->status == User::ACTIVE) {
-					return redirect()->back()->with('status', 'Sorry, You cant edit this ad');
-				}
-
-				Ad::updateUserAd($request->all(), $ad);
-
-				return redirect()->back()->with('status', 'Your ad is update');
+			
+			if($ad->status == Ad::ON_MODERATION || $ad->status == User::ACTIVE) {
+				return redirect()->back()->with('status', 'Sorry, You cant edit this ad');
 			}
+
+			Ad::updateUserAd($request->all(), $ad);
+			Log::channel('single')->info($user->name. ' edit the ad with id - "'. $ad->id. '"');
+			return redirect()->back()->with('status', 'Your ad is update');
+			
 		} else {
+
 			return abort(404);
+			
 		}
 	}
 
@@ -146,6 +151,8 @@ class UserController extends Controller
 				if($ad->status == Ad::ON_MODERATION) {
 					return redirect()->back()->with('status', 'Sorry, the ad on moderation');
 				}
+				$ad->status = Ad::SOLD_OR_DEL;
+				$ad->update();
 
 				$ad->delete();
 				return redirect()->route('user.home', ['id' => auth()->user()->id])->with('status', 'Draft ad is deleted');

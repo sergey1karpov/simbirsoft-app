@@ -137,8 +137,12 @@ class Ad extends Model
         $ad->category_slug = $data['category_slug'];
         $ad->city_slug = $data['city_slug'];
         $ad->description = $data['description'];
-        $ad->photo = self::addMainPhoto($data['photo']);
-        $ad->photos = self::addAdditionalPhoto($data['photos']);
+        if($ad->photo == null) {
+            $ad->photo = self::addMainPhoto($data['photo']);
+        }
+        if($ad->photos == null) {
+            $ad->photos = self::addAdditionalPhoto($data['photos']);
+        }
         $ad->price = $data['price'];
         $ad->update();
 
